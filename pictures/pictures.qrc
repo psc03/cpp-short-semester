@@ -1,0 +1,19 @@
+<RCC>
+    <qresource prefix="/">
+        <file>bigbullet.png</file>
+        <file>bombbullet.png</file>
+        <file>bullet.png</file>
+        <file>Gartlin.png</file>
+        <file>map_background.png</file>
+        <file>pictures.qrc</file>
+        <file>smallbullet.png</file>
+        <file>Tank_Green.png</file>
+        <file>Tank_Green_Big.png</file>
+        <file>Tank_Red.png</file>
+        <file>Tank_Red_Big.png</file>
+        <file>wall.png</file>
+        <file>wall1.png</file>
+        <file>wall2.png</file>
+        <file>../icon.png</file>
+    </qresource>
+</RCC>
