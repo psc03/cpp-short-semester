@@ -25,10 +25,10 @@ include($$PWD/src/window/window.pri)
 
 SOURCES += \
     $$PWD/src/main.cpp \
-    $$PWD/src/mainwindow.cpp
+    # $$PWD/src/mainwindow.cpp
 
-HEADERS += \
-    $$PWD/src/mainwindow.h
+# HEADERS += \
+    # $$PWD/src/mainwindow.h
 
 FORMS += \
     $$PWD/src/mainwindow.ui
