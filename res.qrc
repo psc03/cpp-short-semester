@@ -1,0 +1,19 @@
+<RCC>
+    <qresource prefix="/pic">
+        <file>pictures/bigbullet.png</file>
+        <file>pictures/bombbullet.png</file>
+        <file>pictures/bullet.png</file>
+        <file>pictures/Gartlin.png</file>
+        <file>pictures/map_background.png</file>
+        <file>pictures/smallbullet.png</file>
+        <file>pictures/Tank_Green.png</file>
+        <file>pictures/Tank_Green_Big.png</file>
+        <file>pictures/Tank_Red.png</file>
+        <file>pictures/Tank_Red_Big.png</file>
+        <file>pictures/wall.png</file>
+        <file>pictures/wall1.png</file>
+        <file>pictures/wall2.png</file>
+        <file>pictures/icon.png</file>
+    </qresource>
+    <qresource prefix="/music"/>
+</RCC>

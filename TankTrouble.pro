@@ -24,14 +24,14 @@ include($$PWD/src/model/model.pri)
 include($$PWD/src/window/window.pri)
 
 SOURCES += \
-    main.cpp \
-    mainwindow.cpp
+    $$PWD/src/main.cpp \
+    $$PWD/src/mainwindow.cpp
 
 HEADERS += \
-    mainwindow.h
+    $$PWD/src/mainwindow.h
 
 FORMS += \
-    mainwindow.ui
+    $$PWD/src/mainwindow.ui
 
 # The icon
 RC_ICONS = icon.ico
@@ -45,4 +45,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 RESOURCES += \
-    pictures/pictures.qrc
+    pictures/pictures.qrc \
+    res.qrc
