@@ -28,7 +28,9 @@ public:
 
 signals:
     // void keyPress_red(QKeyEvent *event);
-    void keyPress_red(int key);
+    // void keyPress_red(int key);
+    void red_move(int sId);
+    void red_rotate(int sId);
 
 public slots:
     void get_Notification(qint32 eId);

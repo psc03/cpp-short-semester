@@ -43,18 +43,34 @@ TPoint *TankViewModel::get_tank()
     return tank;
 }
 
-void TankViewModel::get_MoveCommand(int key)
+void TankViewModel::get_moveCommand(int sId)
 {
-    if(key == Qt::Key_W){
+    // if(key == Qt::Key_W){
+    //     this->tankModel->moveForward();
+    // }
+    // else if(key == Qt::Key_S){
+    //     this->tankModel->moveBackward();
+    // }
+    // else if(key == Qt::Key_A){
+    //     this->tankModel->rotateLeft();
+    // }
+    // else if(key == Qt::Key_D){
+    //     this->tankModel->rotateRight();
+    // }
+    if(sId == TANK_MOVE_FORWARD){
         this->tankModel->moveForward();
     }
-    else if(key == Qt::Key_S){
+    else if(sId == TANK_MOVE_BACKWARD){
         this->tankModel->moveBackward();
     }
-    else if(key == Qt::Key_A){
+}
+
+void TankViewModel::get_rotateCommand(int sId)
+{
+    if(sId == TANK_ROTATE_LEFT){
         this->tankModel->rotateLeft();
     }
-    else if(key == Qt::Key_D){
+    else if(sId == TANK_ROTATE_RIGHT){
         this->tankModel->rotateRight();
     }
 }

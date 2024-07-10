@@ -23,7 +23,9 @@ signals:
 
 public slots:
     // void get_MoveCommand(QKeyEvent *event);
-    void get_MoveCommand(int key);
+    // void get_MoveCommand(int key);
+    void get_moveCommand(int sId);
+    void get_rotateCommand(int sId);
     void get_Notification(qint32 eId);
 
 private:

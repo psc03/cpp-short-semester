@@ -162,16 +162,20 @@ void GamePage::get_Notification(qint32 eId)
 void GamePage::handleKeyPress_cmd()
 {
     if(keyPressed.contains(Qt::Key_W)){
-        emit keyPress_red(Qt::Key_W);
+        // emit keyPress_red(Qt::Key_W);
+        emit red_move(TANK_MOVE_FORWARD);
     }
     if(keyPressed.contains(Qt::Key_S)){
-        emit keyPress_red(Qt::Key_S);
+        // emit keyPress_red(Qt::Key_S);
+        emit red_move(TANK_MOVE_BACKWARD);
     }
     if(keyPressed.contains(Qt::Key_A)){
-        emit keyPress_red(Qt::Key_A);
+        // emit keyPress_red(Qt::Key_A);
+        emit red_rotate(TANK_ROTATE_LEFT);
     }
     if(keyPressed.contains(Qt::Key_D)){
-        emit keyPress_red(Qt::Key_D);
+        // emit keyPress_red(Qt::Key_D);
+        emit red_rotate(TANK_ROTATE_RIGHT);
     }
     // if(keyPressed.contains(Qt::Key_Up)){
     //     emit keyPress_green(Qt::Key_Up);
