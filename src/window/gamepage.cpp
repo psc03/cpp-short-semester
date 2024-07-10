@@ -1,6 +1,8 @@
 #include "gamepage.h"
+#include "common.h"
 #include <QGraphicsView>
 #include <QGraphicsScene>
+#include <QGraphicsPixmapItem>
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QLCDNumber>
@@ -105,9 +107,13 @@ void GamePage::init()
     // redTank->setPos(0, 0);
     // scene->addItem(redTank);
 
-    greenTank = new TankItem(QPixmap(":/pic/pictures/Tank_Green.png"));
-    greenTank->setPos(3, 300);
-    scene->addItem(greenTank);
+    redTankItem = new QGraphicsPixmapItem(QPixmap(":/pic/pictures/Tank_Red.png"));
+    redTankItem->setTransformOriginPoint(redTankItem->pixmap().width() / 2, redTankItem->pixmap().height() / 2);
+    scene->addItem(redTankItem);
+
+    greenTankItem = new QGraphicsPixmapItem(QPixmap(":/pic/pictures/Tank_Green.png"));
+    greenTankItem->setPos(3, 300);
+    scene->addItem(greenTankItem);
 
     // 设置视图
     gameBoard->setScene(scene);
@@ -119,22 +125,38 @@ void GamePage::init()
     timer->start(8);  // 大约60帧每秒
 }
 
-void GamePage::attach_redTankItem(TankItem *tankItem)
+// void GamePage::attach_redTankItem(TankItem *tankItem)
+// {
+//     this->redTankItem = tankItem;
+//     this->redTankItem->setPixmap(QPixmap(":/pic/pictures/Tank_Red.png"));
+//     this->redTankItem->setPos(0, 0);
+//     scene->addItem(redTankItem);
+// }
+
+// void GamePage::attach_greenTankItem(TankItem *tankItem)
+// {
+//     this->greenTankItem = tankItem;
+// }
+
+void GamePage::attach_redTank(TPoint *tank)
 {
-    this->redTank = tankItem;
-    this->redTank->setPixmap(QPixmap(":/pic/pictures/Tank_Red.png"));
-    this->redTank->setPos(0, 0);
-    scene->addItem(redTank);
+    this->redTank = tank;
 }
 
-void GamePage::attach_greenTankItem(TankItem *tankItem)
+void GamePage::attach_greenTank(TPoint *tank)
 {
-    this->greenTank = tankItem;
+    this->greenTank = tank;
 }
 
 void GamePage::get_Notification(qint32 eId)
 {
-    Q_UNUSED(eId);
+    // Q_UNUSED(eId);
+    if(eId == TANK_MOVE_FORWARD || eId == TANK_MOVE_BACKWARD){
+        this->redTankItem->setPos(this->redTank->getX(), this->redTank->getY());
+    }
+    else if(eId == TANK_ROTATE_LEFT || eId == TANK_ROTATE_RIGHT){
+        this->redTankItem->setRotation(this->redTank->getAngle());
+    }
 }
 
 void GamePage::handleKeyPress_cmd()

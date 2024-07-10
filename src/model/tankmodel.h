@@ -13,8 +13,10 @@ public:
     explicit TankModel(QObject *parent = nullptr);
     TankModel(qreal x, qreal y, qreal angle = 0, QObject *parent = nullptr);
     ~TankModel();
-    void moveForward(TankItem *tankItem);
-    void moveBackward(TankItem *tankItem);
+    // void moveForward(TankItem *tankItem);
+    // void moveBackward(TankItem *tankItem);
+    void moveForward();
+    void moveBackward();
     void rotateLeft();
     void rotateRight();
     // virtual
@@ -22,7 +24,7 @@ signals:
     void tank_move(qint32 eId);
 
 private:
-    bool canMove(const QPointF &newPos, TankItem *tankItem);
+    // bool canMove(const QPointF &newPos, TankItem *tankItem);
 };
 
 #endif // TANKMODEL_H

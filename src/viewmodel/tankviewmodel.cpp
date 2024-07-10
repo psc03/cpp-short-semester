@@ -5,14 +5,17 @@
 
 TankViewModel::TankViewModel(QObject *parent)
     : QObject{parent},
-    tankItem(new TankItem())
+    // tankItem(new TankItem()),
+    tank(new TPoint())
 {}
 
 TankViewModel::TankViewModel(qreal x, qreal y, qreal angle, QObject *parent)
     : QObject{parent},
-    tankItem(new TankItem(angle))
+    // tankItem(new TankItem(angle)),
+    tank(new TPoint(x, y, angle))
+
 {
-    tankItem->setPos(x, y);
+    // tankItem->setPos(x, y);
 }
 
 TankViewModel::~TankViewModel()
@@ -30,18 +33,23 @@ void TankViewModel::attach_tankmodel(TankModel *tankModel)
 //     this->tankItem = tankItem;
 // }
 
-TankItem *TankViewModel::get_tankItem()
+// TankItem *TankViewModel::get_tankItem()
+// {
+//     return this->tankItem;
+// }
+
+TPoint *TankViewModel::get_tank()
 {
-    return this->tankItem;
+    return tank;
 }
 
 void TankViewModel::get_MoveCommand(int key)
 {
     if(key == Qt::Key_W){
-        this->tankModel->moveForward(tankItem);
+        this->tankModel->moveForward();
     }
     else if(key == Qt::Key_S){
-        this->tankModel->moveBackward(tankItem);
+        this->tankModel->moveBackward();
     }
     else if(key == Qt::Key_A){
         this->tankModel->rotateLeft();
@@ -54,19 +62,23 @@ void TankViewModel::get_MoveCommand(int key)
 void TankViewModel::get_Notification(qint32 eId)
 {
     if(eId == TANK_MOVE_FORWARD){
-        this->tankItem->setPos(this->tankModel->position());
+        // this->tankItem->setPos(this->tankModel->position());
+        this->tank->setPos(this->tankModel->position());
         emit tank_move(eId);
     }
     else if(eId == TANK_MOVE_BACKWARD){
-        this->tankItem->setPos(this->tankModel->position());
+        // this->tankItem->setPos(this->tankModel->position());
+        this->tank->setPos(this->tankModel->position());
         emit tank_move(eId);
     }
     else if(eId == TANK_ROTATE_LEFT){
-        this->tankItem->setRotation(this->tankModel->getAngle());
+        // this->tankItem->setRotation(this->tankModel->getAngle());
+        this->tank->setAngle(this->tankModel->getAngle());
         emit tank_move(eId);
     }
     else if(eId == TANK_ROTATE_RIGHT){
-        this->tankItem->setRotation(this->tankModel->getAngle());
+        // this->tankItem->setRotation(this->tankModel->getAngle());
+        this->tank->setAngle(this->tankModel->getAngle());
         emit tank_move(eId);
     }
 }

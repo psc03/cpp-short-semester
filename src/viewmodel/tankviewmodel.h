@@ -4,6 +4,7 @@
 #include <QObject>
 #include "tankmodel.h"
 #include "tankitem.h"
+#include "tpoint.h"
 
 class TankViewModel : public QObject
 {
@@ -14,7 +15,8 @@ public:
     ~TankViewModel();
     void attach_tankmodel(TankModel *tankModel);
     // void attach_item(TankItem *tankItem);
-    TankItem* get_tankItem();
+    // TankItem* get_tankItem();
+    TPoint* get_tank();
 
 signals:
     void tank_move(qint32 eId);
@@ -26,7 +28,8 @@ public slots:
 
 private:
     TankModel *tankModel;
-    TankItem *tankItem;
+    // TankItem *tankItem;
+    TPoint *tank;
 };
 
 #endif // TANKVIEWMODEL_H

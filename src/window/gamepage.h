@@ -4,12 +4,14 @@
 #include <QWidget>
 #include <QSet>
 #include "tankitem.h"
+#include "tpoint.h"
 
 class QHBoxLayout;
 class QLabel;
 class QLCDNumber;
 class QGraphicsView;
 class QGraphicsScene;
+class QGraphicsPixmapItem;
 class QTimer;
 
 class GamePage : public QWidget
@@ -19,8 +21,10 @@ public:
     explicit GamePage(QWidget *parent = nullptr);
     ~GamePage();
     void init();
-    void attach_redTankItem(TankItem *tankItem);
-    void attach_greenTankItem(TankItem *tankItem);
+    // void attach_redTankItem(TankItem *tankItem);
+    // void attach_greenTankItem(TankItem *tankItem);
+    void attach_redTank(TPoint *tank);
+    void attach_greenTank(TPoint *tank);
 
 signals:
     // void keyPress_red(QKeyEvent *event);
@@ -38,8 +42,10 @@ private:
     QGraphicsView *gameBoard;
 
     QGraphicsScene *scene;
-    TankItem *redTank;
-    TankItem *greenTank;
+    // TankItem *redTankItem;
+    // TankItem *greenTankItem;
+    QGraphicsPixmapItem *redTankItem;
+    QGraphicsPixmapItem *greenTankItem;
 
     QWidget *scoreBoardContainer;
     QHBoxLayout *scoreBoard;
@@ -51,6 +57,9 @@ private:
     QTimer *timer;
 
     QSet<int> keyPressed;
+
+    TPoint *redTank;
+    TPoint *greenTank;
 
     // QWidget interface
 protected:

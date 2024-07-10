@@ -24,7 +24,8 @@ void GameApp::init()
     connect(&red_tankModel, &TankModel::tank_move, &red_tankVM, &TankViewModel::get_Notification);
 
     // properties
-    mainWND.getGamePage()->attach_redTankItem(red_tankVM.get_tankItem());
+    // mainWND.getGamePage()->attach_redTankItem(red_tankVM.get_tankItem());
+    mainWND.getGamePage()->attach_redTank(red_tankVM.get_tank());
 
     // command
     connect(mainWND.getGamePage(), &GamePage::keyPress_red, &red_tankVM, &TankViewModel::get_MoveCommand);
