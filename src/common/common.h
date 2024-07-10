@@ -27,4 +27,10 @@ enum {
     TANK_ROTATE_RIGHT
 };
 
+/* catogory */
+enum {
+    RED_TANK = 10,
+    GREEN_TANK
+};
+
 #endif // COMMON_H

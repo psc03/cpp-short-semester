@@ -32,6 +32,9 @@ signals:
     void red_move(int sId);
     void red_rotate(int sId);
 
+    void green_move(int sId);
+    void green_rotate(int sId);
+
 public slots:
     void get_Notification(qint32 eId);
 

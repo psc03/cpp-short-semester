@@ -10,6 +10,10 @@ public:
     explicit TPoint(QObject *parent = nullptr);
     TPoint(qreal x, qreal y, qreal angle = 0, QObject *parent = nullptr);
     ~TPoint();
+
+    virtual int getId();
+    virtual void setId(int id);
+
     virtual QPointF position() const;
     virtual qreal getX() const;
     virtual void setX(qreal x);
@@ -26,6 +30,7 @@ public:
 // signals:
 
 protected:
+    int id;
     qreal x;
     qreal y;
     qreal angle;

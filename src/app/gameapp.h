@@ -16,6 +16,8 @@ public:
 private:
     TankModel red_tankModel;
     TankViewModel red_tankVM;
+    TankModel green_tankModel;
+    TankViewModel green_tankVM;
     MainWindow mainWND;
 };
 

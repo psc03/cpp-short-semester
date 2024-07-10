@@ -9,13 +9,14 @@ TankViewModel::TankViewModel(QObject *parent)
     tank(new TPoint())
 {}
 
-TankViewModel::TankViewModel(qreal x, qreal y, qreal angle, QObject *parent)
+TankViewModel::TankViewModel(qreal x, qreal y, qreal angle, int id, QObject *parent)
     : QObject{parent},
     // tankItem(new TankItem(angle)),
     tank(new TPoint(x, y, angle))
 
 {
     // tankItem->setPos(x, y);
+    tank->setId(id);
 }
 
 TankViewModel::~TankViewModel()
@@ -80,21 +81,21 @@ void TankViewModel::get_Notification(qint32 eId)
     if(eId == TANK_MOVE_FORWARD){
         // this->tankItem->setPos(this->tankModel->position());
         this->tank->setPos(this->tankModel->position());
-        emit tank_move(eId);
+        emit tank_move(this->tank->getId() == RED_TANK ?eId :eId * -1);
     }
     else if(eId == TANK_MOVE_BACKWARD){
         // this->tankItem->setPos(this->tankModel->position());
         this->tank->setPos(this->tankModel->position());
-        emit tank_move(eId);
+        emit tank_move(this->tank->getId() == RED_TANK ?eId :eId * -1);
     }
     else if(eId == TANK_ROTATE_LEFT){
         // this->tankItem->setRotation(this->tankModel->getAngle());
         this->tank->setAngle(this->tankModel->getAngle());
-        emit tank_move(eId);
+        emit tank_move(this->tank->getId() == RED_TANK ?eId :eId * -1);
     }
     else if(eId == TANK_ROTATE_RIGHT){
         // this->tankItem->setRotation(this->tankModel->getAngle());
         this->tank->setAngle(this->tankModel->getAngle());
-        emit tank_move(eId);
+        emit tank_move(this->tank->getId() == RED_TANK ?eId :eId * -1);
     }
 }

@@ -1,5 +1,6 @@
 #include "gamepage.h"
 #include "common.h"
+// #include "tankviewmodel.h"
 #include <QGraphicsView>
 #include <QGraphicsScene>
 #include <QGraphicsPixmapItem>
@@ -109,10 +110,12 @@ void GamePage::init()
 
     redTankItem = new QGraphicsPixmapItem(QPixmap(":/pic/pictures/Tank_Red.png"));
     redTankItem->setTransformOriginPoint(redTankItem->pixmap().width() / 2, redTankItem->pixmap().height() / 2);
+    redTankItem->setPos(RED_TANK_INIT_X, RED_TANK_INIT_Y);
     scene->addItem(redTankItem);
 
     greenTankItem = new QGraphicsPixmapItem(QPixmap(":/pic/pictures/Tank_Green.png"));
-    greenTankItem->setPos(3, 300);
+    greenTankItem->setTransformOriginPoint(greenTankItem->pixmap().width() / 2, greenTankItem->pixmap().height() / 2);
+    greenTankItem->setPos(GREEN_TANK_INIT_X, GREEN_TANK_INIT_Y);
     scene->addItem(greenTankItem);
 
     // 设置视图
@@ -123,6 +126,8 @@ void GamePage::init()
 
     connect(timer, &QTimer::timeout, this, &GamePage::handleKeyPress_cmd);
     timer->start(8);  // 大约60帧每秒
+
+    grabKeyboard(); // 保证上下左右键按下可以被捕获
 }
 
 // void GamePage::attach_redTankItem(TankItem *tankItem)
@@ -151,11 +156,18 @@ void GamePage::attach_greenTank(TPoint *tank)
 void GamePage::get_Notification(qint32 eId)
 {
     // Q_UNUSED(eId);
+    // TPoint *tank_sender = qobject_cast<TankViewModel *>(sender())->get_tank();
     if(eId == TANK_MOVE_FORWARD || eId == TANK_MOVE_BACKWARD){
         this->redTankItem->setPos(this->redTank->getX(), this->redTank->getY());
     }
     else if(eId == TANK_ROTATE_LEFT || eId == TANK_ROTATE_RIGHT){
         this->redTankItem->setRotation(this->redTank->getAngle());
+    }
+    else if(eId == -1 * TANK_MOVE_FORWARD || eId == -1 * TANK_MOVE_FORWARD){
+        this->greenTankItem->setPos(this->greenTank->getX(), this->greenTank->getY());
+    }
+    else if(eId == -1 * TANK_ROTATE_LEFT || eId == -1 * TANK_ROTATE_RIGHT){
+        this->greenTankItem->setRotation(this->greenTank->getAngle());
     }
 }
 
@@ -177,18 +189,22 @@ void GamePage::handleKeyPress_cmd()
         // emit keyPress_red(Qt::Key_D);
         emit red_rotate(TANK_ROTATE_RIGHT);
     }
-    // if(keyPressed.contains(Qt::Key_Up)){
-    //     emit keyPress_green(Qt::Key_Up);
-    // }
-    // if(keyPressed.contains(Qt::Key_Down)){
-    //     emit keyPress_green(Qt::Key_Down);
-    // }
-    // if(keyPressed.contains(Qt::Key_Left)){
-    //     emit keyPress_green(Qt::Key_Left);
-    // }
-    // if(keyPressed.contains(Qt::Key_Right)){
-    //     emit keyPress_green(Qt::Key_Right);
-    // }
+    if(keyPressed.contains(Qt::Key_Up)){
+        // emit keyPress_green(Qt::Key_Up);
+        emit green_move(TANK_MOVE_FORWARD);
+    }
+    if(keyPressed.contains(Qt::Key_Down)){
+        // emit keyPress_green(Qt::Key_Down);
+        emit green_move(TANK_MOVE_BACKWARD);
+    }
+    if(keyPressed.contains(Qt::Key_Left)){
+        // emit keyPress_green(Qt::Key_Left);
+        emit green_rotate(TANK_ROTATE_LEFT);
+    }
+    if(keyPressed.contains(Qt::Key_Right)){
+        // emit keyPress_green(Qt::Key_Right);
+        emit green_rotate(TANK_ROTATE_RIGHT);
+    }
     // emit keyPress_red();
 }
 
@@ -196,7 +212,9 @@ void GamePage::handleKeyPress_cmd()
 void GamePage::keyPressEvent(QKeyEvent *event)
 {
     if(event->key() == Qt::Key_W || event->key() == Qt::Key_S ||
-        event->key() == Qt::Key_A || event->key() == Qt::Key_D){
+        event->key() == Qt::Key_A || event->key() == Qt::Key_D ||
+        event->key() == Qt::Key_Up || event->key() == Qt::Key_Down ||
+        event->key() == Qt::Key_Left || event->key() == Qt::Key_Right){
         // qDebug() << "press w" << Qt::endl;
         keyPressed.insert(event->key());
     }
@@ -207,7 +225,9 @@ void GamePage::keyPressEvent(QKeyEvent *event)
 void GamePage::keyReleaseEvent(QKeyEvent *event)
 {
     if(event->key() == Qt::Key_W || event->key() == Qt::Key_S ||
-        event->key() == Qt::Key_A || event->key() == Qt::Key_D){
+        event->key() == Qt::Key_A || event->key() == Qt::Key_D ||
+        event->key() == Qt::Key_Up || event->key() == Qt::Key_Down ||
+        event->key() == Qt::Key_Left || event->key() == Qt::Key_Right){
         // qDebug() << "press w" << Qt::endl;
         keyPressed.remove(event->key());
     }

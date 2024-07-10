@@ -22,6 +22,16 @@ TPoint::~TPoint()
 
 }
 
+int TPoint::getId()
+{
+    return id;
+}
+
+void TPoint::setId(int id)
+{
+    this->id = id;
+}
+
 QPointF TPoint::position() const
 {
     return QPointF(x, y);

@@ -3,7 +3,7 @@
 
 #include <QObject>
 // #include "object.h"
-#include "base/tpoint.h"
+#include "tpoint.h"
 #include <tankitem.h>
 
 class TankModel : public TPoint

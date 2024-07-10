@@ -3,15 +3,16 @@
 
 #include <QObject>
 #include "tankmodel.h"
-#include "tankitem.h"
+// #include "tankitem.h"
 #include "tpoint.h"
+#include "common.h"
 
 class TankViewModel : public QObject
 {
     Q_OBJECT
 public:
     explicit TankViewModel(QObject *parent = nullptr);
-    TankViewModel(qreal x, qreal y, qreal angle = 0, QObject *parent = nullptr);
+    TankViewModel(qreal x, qreal y, qreal angle = 0, int id = RED_TANK, QObject *parent = nullptr);
     ~TankViewModel();
     void attach_tankmodel(TankModel *tankModel);
     // void attach_item(TankItem *tankItem);
