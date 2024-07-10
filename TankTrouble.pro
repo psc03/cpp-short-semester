@@ -24,14 +24,14 @@ include($$PWD/src/model/model.pri)
 include($$PWD/src/window/window.pri)
 
 SOURCES += \
-    $$PWD/src/main.cpp \
+    $$PWD/src/main.cpp
     # $$PWD/src/mainwindow.cpp
 
 # HEADERS += \
     # $$PWD/src/mainwindow.h
 
-FORMS += \
-    $$PWD/src/mainwindow.ui
+# FORMS += \
+#     $$PWD/src/mainwindow.ui
 
 # The icon
 RC_ICONS = icon.ico

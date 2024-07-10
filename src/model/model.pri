@@ -1,6 +1,8 @@
 SOURCES += \
-    $$PWD/tank.cpp \
+    $$PWD/base/tpoint.cpp \
+    $$PWD/tankmodel.cpp \
             \
 
 HEADERS += \
-    $$PWD/tank.h
+    $$PWD/base/tpoint.h \
+    $$PWD/tankmodel.h
