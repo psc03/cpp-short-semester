@@ -51,6 +51,13 @@ void InitialPage::Init()
     Exit_Button->setText(QCoreApplication::translate("InitialPage", "\351\200\200\345\207\272\346\270\270\346\210\217", nullptr));
 
     QMetaObject::connectSlotsByName(this);
+
+    // backGround = new QLabel(this);
+    // backGround->setGeometry(0, 0, 500, 600);
+    // backGround->setPixmap(QPixmap(":/pic/pictures/aboutBackground.png"));
+    // backGround->setScaledContents(true);
+
+    // backGround->lower();
 }
 
 void InitialPage::on_DoublePlay_Button_clicked()
