@@ -35,6 +35,8 @@ signals:
     void green_move(int sId);
     void green_rotate(int sId);
 
+    void switchToInitialPage();
+
 public slots:
     void get_Notification(qint32 eId);
 
@@ -67,6 +69,7 @@ private:
     TPoint *greenTank;
 
     // QWidget interface
+
 protected:
     virtual void keyPressEvent(QKeyEvent *event) override;
     virtual void keyReleaseEvent(QKeyEvent *event) override;

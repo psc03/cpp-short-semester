@@ -24,7 +24,8 @@ GamePage::GamePage(QWidget *parent)
     greenScore(new QLCDNumber(scoreBoardContainer)),
     timer(new QTimer(this))
 {
-    this->init();
+
+    init();
 }
 
 GamePage::~GamePage()
@@ -127,7 +128,6 @@ void GamePage::init()
     connect(timer, &QTimer::timeout, this, &GamePage::handleKeyPress_cmd);
     timer->start(8);  // 大约60帧每秒
 
-    grabKeyboard(); // 保证上下左右键按下可以被捕获
 }
 
 // void GamePage::attach_redTankItem(TankItem *tankItem)
@@ -211,6 +211,7 @@ void GamePage::handleKeyPress_cmd()
 
 void GamePage::keyPressEvent(QKeyEvent *event)
 {
+    // Tank Operation
     if(event->key() == Qt::Key_W || event->key() == Qt::Key_S ||
         event->key() == Qt::Key_A || event->key() == Qt::Key_D ||
         event->key() == Qt::Key_Up || event->key() == Qt::Key_Down ||
@@ -218,7 +219,11 @@ void GamePage::keyPressEvent(QKeyEvent *event)
         // qDebug() << "press w" << Qt::endl;
         keyPressed.insert(event->key());
     }
-    // QWidget::keyPressEvent(event);
+    // Page Switch Key
+    if(event->key() == Qt::Key_Escape){
+        releaseKeyboard();
+        emit switchToInitialPage();
+    }
 }
 
 

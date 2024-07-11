@@ -66,6 +66,7 @@ void MainWindow::init()
     connect(initialpage, &InitialPage::switchToAboutPage, this, &MainWindow::do_showAboutPage);
     connect(initialpage, &InitialPage::switchToGamePage, this, &MainWindow::do_showGamePage);
     connect(aboutPage, &AboutPage::switchToInitialPage, this, &MainWindow::do_showInitialPage);
+    connect(gamePage,&GamePage::switchToInitialPage, this, &MainWindow::do_showInitialPage);
 }
 
 GamePage* MainWindow::getGamePage()
@@ -85,5 +86,6 @@ void MainWindow::do_showAboutPage()
 
 void MainWindow::do_showGamePage()
 {
+    gamePage->grabKeyboard(); // 保证上下左右键按下可以被捕获
     stackedWidget->setCurrentWidget(gamePage);
 }
