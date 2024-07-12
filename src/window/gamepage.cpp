@@ -174,6 +174,19 @@ void GamePage::attach_bullets(QVector<TPoint *> *bullets)
     this->bullets = bullets;
 }
 
+void GamePage::attach_walls(QVector<Wall *> *walls)
+{
+    this->walls = walls;
+    // Walls TODO: ?
+    for(auto wall: (*walls)){
+        QGraphicsRectItem* wallItem = new QGraphicsRectItem(wall->getX(), wall->getY(), wall->getWidth(), wall->getHeight());
+        wallItem->setBrush(QBrush(Qt::black));
+        wallItem->setPen(QPen(Qt::black));
+        wallItems.push_back(wallItem);
+        scene->addItem(wallItem);
+    }
+}
+
 // void GamePage::get_Notification(qint32 eId)
 // {
 //     // Q_UNUSED(eId);

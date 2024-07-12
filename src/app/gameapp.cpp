@@ -42,6 +42,8 @@ void GameApp::init()
 
     mainWND.getGamePage()->attach_bullets(mapVM.get_bullets());
 
+    mainWND.getGamePage()->attach_walls(mapVM.get_walls());
+
     // command
     // connect(mainWND.getGamePage(), &GamePage::keyPress_red, &red_tankVM, &TankViewModel::get_moveCommand);
     // connect(mainWND.getGamePage(), &GamePage::red_move, &red_tankVM, &TankViewModel::get_moveCommand);

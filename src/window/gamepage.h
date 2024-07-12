@@ -4,8 +4,13 @@
 #include <QWidget>
 #include <QSet>
 #include <QVector>
+#include <QGraphicsRectItem>
 // #include "tankitem.h"
 #include "tpoint.h"
+
+// TODO: 哪里放置wall
+
+#include "mem/wall.h"
 #include "common.h"
 
 class QHBoxLayout;
@@ -29,6 +34,7 @@ public:
     void attach_redTank(TPoint *tank);
     void attach_greenTank(TPoint *tank);
     void attach_bullets(QVector<TPoint *> *bullets);
+    void attach_walls(QVector<Wall *> *walls);
 
 signals:
     // void keyPress_red(QKeyEvent *event);
@@ -62,6 +68,7 @@ private:
     QGraphicsPixmapItem *redTankItem;
     QGraphicsPixmapItem *greenTankItem;
     QVector<QGraphicsEllipseItem *> bulletItems;
+    QVector<QGraphicsRectItem *> wallItems;
 
     QWidget *scoreBoardContainer;
     QHBoxLayout *scoreBoard;
@@ -82,6 +89,7 @@ private:
 
     static int intervalOfShoot; // ms 发射间隔
 
+    QVector<Wall *> *walls;
     // QWidget interface
 
 protected:

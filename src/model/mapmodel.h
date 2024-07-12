@@ -6,7 +6,7 @@
 #include "mem/tank.h"
 #include "mem/bullet.h"
 #include "common.h"
-
+#include "mem/wall.h"
 class MapModel : public QObject
 {
     Q_OBJECT
@@ -16,6 +16,7 @@ public:
     QPointF getTankPosition(Item color);
     qreal getTankAngle(Item color);
     QVector<Bullet *> getBullets(Item color);
+    QVector<Wall *> getWalls();
     void tank_moveForward(Item category);
     void tank_moveBackward(Item category);
     void tank_rotateLeft(Item category);
@@ -34,7 +35,9 @@ private:
     Tank *green_tank;
     QVector<Bullet *> red_bullets;
     QVector<Bullet *> green_bullets;
+    QVector<Wall *> walls;
     QTimer *bullet_move_timer;
+
     bool tankCanMove(Tank tankNext);
     static int max_bullets;
 };

@@ -20,6 +20,7 @@ MapViewModel::~MapViewModel()
 void MapViewModel::attach_mapModel(MapModel *mapModel)
 {
     this->mapModel = mapModel;
+    walls = mapModel->getWalls();
 }
 
 TPoint *MapViewModel::get_tank(Item color)
@@ -31,6 +32,11 @@ TPoint *MapViewModel::get_tank(Item color)
 QVector<TPoint *> *MapViewModel::get_bullets()
 {
     return &bullets;
+}
+
+QVector<Wall *> *MapViewModel::get_walls()
+{
+    return &walls;
 }
 
 void MapViewModel::get_moveCommand(Item category, Command cId)

@@ -13,7 +13,6 @@ TankViewModel::TankViewModel(qreal x, qreal y, qreal angle, int id, QObject *par
     : QObject{parent},
     // tankItem(new TankItem(angle)),
     tank(new TPoint(x, y, angle))
-
 {
     // tankItem->setPos(x, y);
     tank->setId(id);

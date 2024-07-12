@@ -2,8 +2,8 @@
 #define COMMON_H
 
 /* Tank */
-#define TANK_MOVE_SPEED 2.5
-#define TANK_ROTATE_SPEED 2.5
+#define TANK_MOVE_SPEED 1
+#define TANK_ROTATE_SPEED 2
 #define TANK_HEIGHT 25
 #define TANK_WIDTH 40
 

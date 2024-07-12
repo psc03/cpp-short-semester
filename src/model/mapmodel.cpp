@@ -1,6 +1,7 @@
 #include "mapmodel.h"
 #include "common.h"
-#include <QPointF>
+#include <QPolygonF>
+#include <QRectF>
 #include <QDebug>
 int MapModel::max_bullets = MAX_TANK_BULLETS;
 
@@ -20,9 +21,30 @@ MapModel::MapModel(QObject *parent)
         Bullet *bullet = new Bullet();
         green_bullets.push_back(bullet);
     }
-
     bullet_move_timer->start(BULLET_MOVE_TIMER);
+    // walls
+    walls.push_back(new Wall(100, 0, 4, 100));
+    walls.push_back(new Wall(246, 53, 4, 150));
+    walls.push_back(new Wall(0, 200, 250, 4));
+    walls.push_back(new Wall(241, 380, 250, 4));
+    walls.push_back(new Wall(140, 280, 4, 100));
+    walls.push_back(new Wall(140, 280, 150, 4));
+    walls.push_back(new Wall(40, 330, 100, 4));
+    walls.push_back(new Wall(424, 441, 4, 50));
+    walls.push_back(new Wall(350, 380, 4, 50));
+    walls.push_back(new Wall(340, 150, 150, 4));
+    walls.push_back(new Wall(250, 80, 150, 4));
+    walls.push_back(new Wall(390, 220, 4, 50));
+    walls.push_back(new Wall(340, 220, 50, 4));
+    walls.push_back(new Wall(50, 440, 4, 50));
+    walls.push_back(new Wall(0, 440, 50, 4));
+    walls.push_back(new Wall(100, 100, 50, 4));
+    walls.push_back(new Wall(260, 355, 4, 25));
+    walls.push_back(new Wall(150, 175, 4, 25));
+
     connect(bullet_move_timer, &QTimer::timeout, this, &MapModel::bullet_move);
+
+
 }
 
 MapModel::~MapModel()
@@ -46,6 +68,11 @@ QVector<Bullet *> MapModel::getBullets(Item color)
 {
     if(color == RED_TANK) return red_bullets;
     else return green_bullets;
+}
+
+QVector<Wall *> MapModel::getWalls()
+{
+    return walls;
 }
 
 void MapModel::tank_moveForward(Item category)
@@ -195,6 +222,7 @@ void MapModel::bullet_move()
     // int count = 0;
     for(int i = 0; i < red_bullets.size(); i++){
         if(!red_bullets[i]->isAvailable()){
+            // TODO: MoveForward之前检测
             red_bullets[i]->moveForward();
             // count++;
         }
@@ -211,12 +239,23 @@ void MapModel::bullet_move()
 
 bool MapModel::tankCanMove(Tank tankNext)
 {
-    // 四周
-    QVector<QPointF> Vertices = tankNext.getVertices();
-    for(int i = 0; i < 4; i++)
-    {
-        if(Vertices[i].x() < 0 || Vertices[i].x() > SCENE_WIDTH || Vertices[i].y() < 0 || Vertices[i].y() > SCENE_WIDTH)
+    // 如果细化它的边界，碰撞可能更加丝滑
+    QVector<QPointF> tankVertices = tankNext.getVertices();
+    // 边界
+    for (auto vertex : tankVertices) {
+        if (vertex.x() < 0 || vertex.x() > SCENE_WIDTH || vertex.y() < 0 || vertex.y() > SCENE_HEIGHT) {
             return false;
+        }
     }
     // 墙壁
+    QPolygonF tankPolygon(tankVertices);
+    for (auto wall : walls) {
+        QRectF wallPolygon(wall->getX(),wall->getY(),wall->getWidth(),wall->getHeight());
+        if (tankPolygon.intersects(wallPolygon)) {
+            // qDebug() << "tank " << tankVertices[0].x() << tankVertices[0].y();
+            return false;
+        }
+    }
+    return true;
 }
+

@@ -15,6 +15,7 @@ public:
     void attach_mapModel(MapModel *mapModel);
     TPoint *get_tank(Item color);
     QVector<TPoint *> *get_bullets();
+    QVector<Wall *> *get_walls();
 
 signals:
     void tank_move(Item category, Notification nId);
@@ -32,6 +33,7 @@ private:
     TPoint *red_tank;
     TPoint *green_tank;
     QVector<TPoint *> bullets;
+    QVector<Wall *> walls;
 };
 
 #endif // MAPVIEWMODEL_H
