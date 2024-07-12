@@ -33,6 +33,8 @@ public:
     virtual void setAngle(qreal angle);
     virtual void rotate(qreal dangle);
 
+    virtual bool isAvailable();
+
 // signals:
 
 protected:

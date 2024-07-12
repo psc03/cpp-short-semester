@@ -14,13 +14,16 @@ public:
     ~MapViewModel();
     void attach_mapModel(MapModel *mapModel);
     TPoint *get_tank(Item color);
+    QVector<TPoint *> *get_bullets();
 
 signals:
     void tank_move(Item category, Notification nId);
+    void bullet_change(Item catogory, Notification nId);
 
 public slots:
     void get_moveCommand(Item category, Command cId);
     // void get_rotateCommand(Item category, Command cId);
+    void get_shootCommand(Item category, Command cId);
     void get_Notification(Item category, Notification nId);
 
 
@@ -28,6 +31,7 @@ private:
     MapModel *mapModel;
     TPoint *red_tank;
     TPoint *green_tank;
+    QVector<TPoint *> bullets;
 };
 
 #endif // MAPVIEWMODEL_H

@@ -4,11 +4,14 @@
 #include <QGraphicsView>
 #include <QGraphicsScene>
 #include <QGraphicsPixmapItem>
+#include <QGraphicsEllipseItem>
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QLCDNumber>
 #include <QMouseEvent>
 #include <QTimer>
+
+int GamePage::intervalOfShoot = 100;
 
 GamePage::GamePage(QWidget *parent)
     : QWidget{parent},
@@ -22,7 +25,9 @@ GamePage::GamePage(QWidget *parent)
     sb_greenTank(new QLabel(scoreBoardContainer)),
     redScore(new QLCDNumber(scoreBoardContainer)),
     greenScore(new QLCDNumber(scoreBoardContainer)),
-    timer(new QTimer(this))
+    commandTimer(new QTimer(this)),
+    redTankShootTimer(new QTimer(this)),
+    greenTankShootTimer(new QTimer(this))
 {
 
     init();
@@ -119,15 +124,26 @@ void GamePage::init()
     greenTankItem->setPos(GREEN_TANK_INIT_X, GREEN_TANK_INIT_Y);
     scene->addItem(greenTankItem);
 
+    for(int i = 0; i < MAX_TANK_BULLETS * 2; i++){
+        QGraphicsEllipseItem *bulletItem = new QGraphicsEllipseItem();
+        bulletItem->setBrush(Qt::black);
+        bulletItem->setRect(0, 0, BULLET_WIDTH, BULLET_HEIGHT);
+        bulletItem->setVisible(false);
+        bulletItems.push_back(bulletItem);
+        scene->addItem(bulletItem);
+    }
+
     // 设置视图
     gameBoard->setScene(scene);
     scene->setSceneRect(0, 0, gameBoard->width(), gameBoard->height());
     qDebug() << gameBoard->width() << Qt::endl;
     qDebug() << gameBoard->height() << Qt::endl;
 
-    connect(timer, &QTimer::timeout, this, &GamePage::handleKeyPress_cmd);
-    timer->start(8);  // 大约60帧每秒
+    connect(commandTimer, &QTimer::timeout, this, &GamePage::handleKeyPress_cmd);
+    commandTimer->start(8);  // 大约60帧每秒
 
+    redTankShootTimer->setSingleShot(true);
+    greenTankShootTimer->setSingleShot(true);
 }
 
 // void GamePage::attach_redTankItem(TankItem *tankItem)
@@ -151,6 +167,11 @@ void GamePage::attach_redTank(TPoint *tank)
 void GamePage::attach_greenTank(TPoint *tank)
 {
     this->greenTank = tank;
+}
+
+void GamePage::attach_bullets(QVector<TPoint *> *bullets)
+{
+    this->bullets = bullets;
 }
 
 // void GamePage::get_Notification(qint32 eId)
@@ -181,6 +202,13 @@ void GamePage::get_Notification(Item category, Notification nId)
         if(category == RED_TANK) this->redTankItem->setRotation(this->redTank->getAngle());
         else if(category == GREEN_TANK) this->greenTankItem->setRotation(this->greenTank->getAngle());
     }
+    else if(nId == BULLET_CHANGE){
+        for(int i = 0; i < bullets->size(); i++){
+            bulletItems[i]->setPos((*bullets).at(i)->position());
+            if((*bullets).at(i)->isAvailable()) bulletItems[i]->setVisible(false);
+            else bulletItems[i]->setVisible(true);
+        }
+    }
 }
 
 void GamePage::handleKeyPress_cmd()
@@ -206,6 +234,10 @@ void GamePage::handleKeyPress_cmd()
         // emit red_rotate(TANK_ROTATE_RIGHT);
         emit tank_move(RED_TANK, TANK_ROTATE_RIGHT);
     }
+    if(keyPressed.contains(Qt::Key_Space) && !redTankShootTimer->isActive()){
+        redTankShootTimer->start(intervalOfShoot); // 冷却
+        emit tank_shoot(RED_TANK, TANK_SHOOT);
+    }
     if(keyPressed.contains(Qt::Key_Up)){
         // emit keyPress_green(Qt::Key_Up);
         // emit green_move(TANK_MOVE_FORWARD);
@@ -226,6 +258,10 @@ void GamePage::handleKeyPress_cmd()
         // emit green_rotate(TANK_ROTATE_RIGHT);
         emit tank_move(GREEN_TANK, TANK_ROTATE_RIGHT);
     }
+    if(keyPressed.contains(Qt::Key_M) && !greenTankShootTimer->isActive()){
+        greenTankShootTimer->start(intervalOfShoot); // 冷却
+        emit tank_shoot(GREEN_TANK, TANK_SHOOT);
+    }
     // emit keyPress_red();
 }
 
@@ -235,8 +271,10 @@ void GamePage::keyPressEvent(QKeyEvent *event)
     // Tank Operation
     if(event->key() == Qt::Key_W || event->key() == Qt::Key_S ||
         event->key() == Qt::Key_A || event->key() == Qt::Key_D ||
+        event->key() == Qt::Key_Space ||
         event->key() == Qt::Key_Up || event->key() == Qt::Key_Down ||
-        event->key() == Qt::Key_Left || event->key() == Qt::Key_Right){
+        event->key() == Qt::Key_Left || event->key() == Qt::Key_Right ||
+        event->key() == Qt::Key_M){
         // qDebug() << "press w" << Qt::endl;
         keyPressed.insert(event->key());
     }
@@ -252,8 +290,10 @@ void GamePage::keyReleaseEvent(QKeyEvent *event)
 {
     if(event->key() == Qt::Key_W || event->key() == Qt::Key_S ||
         event->key() == Qt::Key_A || event->key() == Qt::Key_D ||
+        event->key() == Qt::Key_Space ||
         event->key() == Qt::Key_Up || event->key() == Qt::Key_Down ||
-        event->key() == Qt::Key_Left || event->key() == Qt::Key_Right){
+        event->key() == Qt::Key_Left || event->key() == Qt::Key_Right ||
+        event->key() == Qt::Key_M){
         // qDebug() << "press w" << Qt::endl;
         keyPressed.remove(event->key());
     }

@@ -111,6 +111,11 @@ qreal TPoint::getAngle() const
     return angle;
 }
 
+bool TPoint::isAvailable()
+{
+    return true;
+}
+
 void TPoint::setAngle(qreal angle)
 {
     this->angle = angle;

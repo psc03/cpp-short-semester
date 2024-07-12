@@ -29,6 +29,7 @@ void GameApp::init()
 
     mapVM.attach_mapModel(&mapModel);
     connect(&mapModel, &MapModel::tank_move, &mapVM, &MapViewModel::get_Notification);
+    connect(&mapModel, &MapModel::bullet_change, &mapVM, &MapViewModel::get_Notification);
 
     // properties
     // mainWND.getGamePage()->attach_redTankItem(red_tankVM.get_tankItem());
@@ -39,6 +40,8 @@ void GameApp::init()
 
     mainWND.getGamePage()->attach_greenTank(mapVM.get_tank(GREEN_TANK));
 
+    mainWND.getGamePage()->attach_bullets(mapVM.get_bullets());
+
     // command
     // connect(mainWND.getGamePage(), &GamePage::keyPress_red, &red_tankVM, &TankViewModel::get_moveCommand);
     // connect(mainWND.getGamePage(), &GamePage::red_move, &red_tankVM, &TankViewModel::get_moveCommand);
@@ -47,12 +50,14 @@ void GameApp::init()
     // connect(mainWND.getGamePage(), &GamePage::green_rotate, &green_tankVM, &TankViewModel::get_rotateCommand);
 
     connect(mainWND.getGamePage(), &GamePage::tank_move, &mapVM, &MapViewModel::get_moveCommand);
+    connect(mainWND.getGamePage(), &GamePage::tank_shoot, &mapVM, &MapViewModel::get_shootCommand);
 
     //notifications
     // connect(&red_tankVM, &TankViewModel::tank_move, mainWND.getGamePage(), &GamePage::get_Notification);
     // connect(&green_tankVM, &TankViewModel::tank_move, mainWND.getGamePage(), &GamePage::get_Notification);
 
     connect(&mapVM, &MapViewModel::tank_move, mainWND.getGamePage(), &GamePage::get_Notification);
+    connect(&mapVM, &MapViewModel::bullet_change, mainWND.getGamePage(), &GamePage::get_Notification);
 
     mainWND.show();
 }

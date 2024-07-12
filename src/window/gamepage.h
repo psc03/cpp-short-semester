@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QSet>
+#include <QVector>
 // #include "tankitem.h"
 #include "tpoint.h"
 #include "common.h"
@@ -13,6 +14,7 @@ class QLCDNumber;
 class QGraphicsView;
 class QGraphicsScene;
 class QGraphicsPixmapItem;
+class QGraphicsEllipseItem;
 class QTimer;
 
 class GamePage : public QWidget
@@ -26,6 +28,7 @@ public:
     // void attach_greenTankItem(TankItem *tankItem);
     void attach_redTank(TPoint *tank);
     void attach_greenTank(TPoint *tank);
+    void attach_bullets(QVector<TPoint *> *bullets);
 
 signals:
     // void keyPress_red(QKeyEvent *event);
@@ -37,6 +40,7 @@ signals:
     // void green_rotate(int sId);
 
     void tank_move(Item color, Command cId);
+    void tank_shoot(Item color, Command cId);
 
     void switchToInitialPage();
 
@@ -57,6 +61,7 @@ private:
     // TankItem *greenTankItem;
     QGraphicsPixmapItem *redTankItem;
     QGraphicsPixmapItem *greenTankItem;
+    QVector<QGraphicsEllipseItem *> bulletItems;
 
     QWidget *scoreBoardContainer;
     QHBoxLayout *scoreBoard;
@@ -65,12 +70,17 @@ private:
     QLCDNumber *redScore;
     QLCDNumber *greenScore;
 
-    QTimer *timer;
+    QTimer *commandTimer;
+    QTimer *redTankShootTimer; // 发射间隔 冷却时间
+    QTimer *greenTankShootTimer;
 
     QSet<int> keyPressed;
 
     TPoint *redTank;
     TPoint *greenTank;
+    QVector<TPoint *> *bullets;
+
+    static int intervalOfShoot; // ms 发射间隔
 
     // QWidget interface
 

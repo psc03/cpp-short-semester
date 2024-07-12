@@ -22,6 +22,9 @@
 // TODO:
 #define BULLET_HEIGHT 11
 #define BULLET_WIDTH 11
+#define MAX_TANK_BULLETS 5
+#define BULLET_MOVE_TIMER 10  // ms, move_timer的触发间隔
+#define BULLET_LIFETIME  1000  // ms
 
 /* mapscene */
 #define SCENE_WIDTH 491
@@ -33,7 +36,9 @@ enum Notification{
     TANK_MOVE_BACKWARD,
     TANK_ROTATE_LEFT,
     TANK_ROTATE_RIGHT,
-    BULLET_MOVE
+    TANK_SHOOT,
+    BULLET_MOVE,
+    BULLET_CHANGE
 };
 
 using Command = Notification;

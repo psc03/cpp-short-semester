@@ -5,7 +5,12 @@ MapViewModel::MapViewModel(QObject *parent)
     : QObject{parent},
     red_tank(new TPoint(RED_TANK_INIT_X, RED_TANK_INIT_Y, RED_TANK, RED_TANK_INIT_ANGLE)),
     green_tank(new TPoint(GREEN_TANK_INIT_X, GREEN_TANK_INIT_Y, GREEN_TANK, GREEN_TANK_INIT_ANGLE))
-{}
+{
+    for(int i = 0; i < MAX_TANK_BULLETS * 2; i++){
+        TPoint *bullet = new Bullet();
+        bullets.push_back(bullet);
+    }
+}
 
 MapViewModel::~MapViewModel()
 {
@@ -23,6 +28,11 @@ TPoint *MapViewModel::get_tank(Item color)
     else return green_tank;
 }
 
+QVector<TPoint *> *MapViewModel::get_bullets()
+{
+    return &bullets;
+}
+
 void MapViewModel::get_moveCommand(Item category, Command cId)
 {
     if(cId == TANK_MOVE_FORWARD){
@@ -37,6 +47,13 @@ void MapViewModel::get_moveCommand(Item category, Command cId)
     else if(cId == TANK_ROTATE_RIGHT){
         this->mapModel->tank_rotateRight(category);
     }
+}
+
+void MapViewModel::get_shootCommand(Item category, Command cId)
+{
+    // Q_UNUSED(category);
+    Q_UNUSED(cId);
+    this->mapModel->tank_shoot(category);
 }
 
 // void MapViewModel::get_rotateCommand(Item category, Command cId)
@@ -70,5 +87,17 @@ void MapViewModel::get_Notification(Item category, Notification nId)
         if(category == RED_TANK) this->red_tank->setAngle(this->mapModel->getTankAngle(category));
         else if(category == GREEN_TANK) this->green_tank->setAngle(this->mapModel->getTankAngle(category));
         emit tank_move(category, nId);
+    }
+    else if(nId == BULLET_CHANGE){
+        QVector<Bullet *> modelBullets = this->mapModel->getBullets(RED_TANK);
+        for(int i = 0; i < MAX_TANK_BULLETS; i++){
+            bullets[i] = modelBullets[i];
+        }
+        modelBullets = this->mapModel->getBullets(GREEN_TANK);
+        for(int i = 0; i < MAX_TANK_BULLETS; i++){
+            bullets[i + MAX_TANK_BULLETS] = modelBullets[i];
+        }
+        emit bullet_change(category, nId);
+        // emit tank_move(category, nId);
     }
 }

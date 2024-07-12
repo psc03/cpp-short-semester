@@ -2,23 +2,27 @@
 #include "common.h"
 #include <QPointF>
 #include <QDebug>
-int MapModel::max_bullets = 5;
+int MapModel::max_bullets = MAX_TANK_BULLETS;
 
 MapModel::MapModel(QObject *parent)
     : QObject{parent},
     red_tank(new Tank(RED_TANK, RED_TANK_INIT_X, RED_TANK_INIT_Y, RED_TANK_INIT_ANGLE)),
-    green_tank(new Tank(GREEN_TANK, GREEN_TANK_INIT_X, GREEN_TANK_INIT_Y, GREEN_TANK_INIT_ANGLE))
+    green_tank(new Tank(GREEN_TANK, GREEN_TANK_INIT_X, GREEN_TANK_INIT_Y, GREEN_TANK_INIT_ANGLE)),
+    bullet_move_timer(new QTimer(this))
 {
-    red_bullet.resize(max_bullets);
+    // red_bullets.resize(max_bullets);
     for(int i = 0; i < max_bullets; i++){
         Bullet *bullet = new Bullet();
-        red_bullet.push_back(bullet);
+        red_bullets.push_back(bullet);
     }
-    green_bullet.resize(max_bullets);
+    // green_bullets.resize(max_bullets);
     for(int i = 0; i < max_bullets; i++){
         Bullet *bullet = new Bullet();
-        green_bullet.push_back(bullet);
+        green_bullets.push_back(bullet);
     }
+
+    bullet_move_timer->start(BULLET_MOVE_TIMER);
+    connect(bullet_move_timer, &QTimer::timeout, this, &MapModel::bullet_move);
 }
 
 MapModel::~MapModel()
@@ -36,6 +40,12 @@ qreal MapModel::getTankAngle(Item color)
 {
     if(color == RED_TANK) return red_tank->getAngle();
     else return green_tank->getAngle();
+}
+
+QVector<Bullet *> MapModel::getBullets(Item color)
+{
+    if(color == RED_TANK) return red_bullets;
+    else return green_bullets;
 }
 
 void MapModel::tank_moveForward(Item category)
@@ -125,6 +135,78 @@ void MapModel::tank_rotateRight(Item category)
             emit tank_move(category, TANK_ROTATE_RIGHT);
         }
     }
+}
+
+void MapModel::tank_shoot(Item color)
+{
+    Bullet *shoot = nullptr;
+    if(color == RED_TANK){
+        // get available red bullet
+        for(auto iter = red_bullets.begin(); iter != red_bullets.end(); iter++){
+            if((*iter)->isAvailable()){
+                shoot = (*iter);
+                break;
+            }
+        }
+        // shoot, change bullet
+        if(shoot == nullptr) return ;
+        shoot->setExist();
+        QPointF tankLeftup = red_tank->position();
+        QPointF tankCenter = tankLeftup + QPointF(TANK_WIDTH/2.0, TANK_HEIGHT/2.0);
+        qreal angle = red_tank->getAngle();
+        QPointF bulletCenter = tankCenter
+                               + QPointF(qCos(qDegreesToRadians(angle)) * (TANK_WIDTH / 2.0 + BULLET_WIDTH / 2.0 + 1), qSin(qDegreesToRadians(angle)) * (TANK_WIDTH / 2.0 + BULLET_WIDTH / 2.0 + 1));
+        QPointF bulletLeftup = bulletCenter - QPointF(BULLET_WIDTH/2.0, BULLET_HEIGHT/2.0);
+
+        shoot->setPos(bulletLeftup);
+        shoot->setAngle(angle);
+
+        // emit signal
+        emit bullet_change(BULLET, BULLET_CHANGE);
+    }
+    else if(color == GREEN_TANK){
+        // get available green bullet
+        for(auto iter = green_bullets.begin(); iter != green_bullets.end(); iter++){
+            if((*iter)->isAvailable()){
+                shoot = (*iter);
+                break;
+            }
+        }
+        // shoot, change bullet
+        if(shoot == nullptr) return ;
+        shoot->setExist();
+        QPointF tankLeftup = green_tank->position();
+        QPointF tankCenter = tankLeftup + QPointF(TANK_WIDTH/2.0, TANK_HEIGHT/2.0);
+        qreal angle = green_tank->getAngle();
+        QPointF bulletCenter = tankCenter
+                               + QPointF(qCos(qDegreesToRadians(angle)) * (TANK_WIDTH / 2.0 + BULLET_WIDTH / 2.0 + 1), qSin(qDegreesToRadians(angle)) * (TANK_WIDTH / 2.0 + BULLET_WIDTH / 2.0 + 1));
+        QPointF bulletLeftup = bulletCenter - QPointF(BULLET_WIDTH/2.0, BULLET_HEIGHT/2.0);
+
+        shoot->setPos(bulletLeftup);
+        shoot->setAngle(angle);
+
+        // emit signal
+        emit bullet_change(BULLET, BULLET_CHANGE);
+    }
+}
+
+void MapModel::bullet_move()
+{
+    // int count = 0;
+    for(int i = 0; i < red_bullets.size(); i++){
+        if(!red_bullets[i]->isAvailable()){
+            red_bullets[i]->moveForward();
+            // count++;
+        }
+    }
+    for(int i = 0; i < green_bullets.size(); i++){
+        if(!green_bullets[i]->isAvailable()){
+            green_bullets[i]->moveForward();
+            // count++;
+        }
+    }
+    // qDebug() << "count " << count;
+    emit bullet_change(BULLET, BULLET_CHANGE);
 }
 
 bool MapModel::tankCanMove(Tank tankNext)
