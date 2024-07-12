@@ -4,6 +4,8 @@
 #include <QApplication>
 #include "tankviewmodel.h"
 #include "mainwindow.h"
+#include "mapmodel.h"
+#include "mapviewmodel.h"
 
 class GameApp : public QApplication
 {
@@ -18,6 +20,8 @@ private:
     TankViewModel red_tankVM;
     TankModel green_tankModel;
     TankViewModel green_tankVM;
+    MapModel mapModel;
+    MapViewModel mapVM;
     MainWindow mainWND;
 };
 

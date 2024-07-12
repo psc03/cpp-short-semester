@@ -10,6 +10,17 @@ TPoint::TPoint(QObject *parent)
 
 TPoint::TPoint(qreal x, qreal y, qreal angle, QObject *parent)
     : QObject{parent},
+    category(RED_TANK),
+    x(x),
+    y(y),
+    angle(angle)
+{
+
+}
+
+TPoint::TPoint(qreal x, qreal y, Item category, qreal angle, QObject *parent)
+    : QObject{parent},
+    category(category),
     x(x),
     y(y),
     angle(angle)
@@ -30,6 +41,16 @@ int TPoint::getId()
 void TPoint::setId(int id)
 {
     this->id = id;
+}
+
+Item TPoint::getCategory()
+{
+    return category;
+}
+
+void TPoint::setCategory(Item category)
+{
+    this->category = category;
 }
 
 QPointF TPoint::position() const

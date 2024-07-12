@@ -22,30 +22,37 @@ void GameApp::init()
     mainWND.setWindowTitle("Tank Trouble");
 
     // binding
-    red_tankVM.attach_tankmodel(&red_tankModel);
-    connect(&red_tankModel, &TankModel::tank_move, &red_tankVM, &TankViewModel::get_Notification);
+    // red_tankVM.attach_tankmodel(&red_tankModel);
+    // connect(&red_tankModel, &TankModel::tank_move, &red_tankVM, &TankViewModel::get_Notification);
+    // green_tankVM.attach_tankmodel(&green_tankModel);
+    // connect(&green_tankModel, &TankModel::tank_move, &green_tankVM, &TankViewModel::get_Notification);
 
-    green_tankVM.attach_tankmodel(&green_tankModel);
-    connect(&green_tankModel, &TankModel::tank_move, &green_tankVM, &TankViewModel::get_Notification);
+    mapVM.attach_mapModel(&mapModel);
+    connect(&mapModel, &MapModel::tank_move, &mapVM, &MapViewModel::get_Notification);
 
     // properties
     // mainWND.getGamePage()->attach_redTankItem(red_tankVM.get_tankItem());
-    mainWND.getGamePage()->attach_redTank(red_tankVM.get_tank());
+    // mainWND.getGamePage()->attach_redTank(red_tankVM.get_tank());
+    // mainWND.getGamePage()->attach_greenTank(green_tankVM.get_tank());
 
-    mainWND.getGamePage()->attach_greenTank(green_tankVM.get_tank());
+    mainWND.getGamePage()->attach_redTank(mapVM.get_tank(RED_TANK));
+
+    mainWND.getGamePage()->attach_greenTank(mapVM.get_tank(GREEN_TANK));
 
     // command
     // connect(mainWND.getGamePage(), &GamePage::keyPress_red, &red_tankVM, &TankViewModel::get_moveCommand);
-    connect(mainWND.getGamePage(), &GamePage::red_move, &red_tankVM, &TankViewModel::get_moveCommand);
-    connect(mainWND.getGamePage(), &GamePage::red_rotate, &red_tankVM, &TankViewModel::get_rotateCommand);
+    // connect(mainWND.getGamePage(), &GamePage::red_move, &red_tankVM, &TankViewModel::get_moveCommand);
+    // connect(mainWND.getGamePage(), &GamePage::red_rotate, &red_tankVM, &TankViewModel::get_rotateCommand);
+    // connect(mainWND.getGamePage(), &GamePage::green_move, &green_tankVM, &TankViewModel::get_moveCommand);
+    // connect(mainWND.getGamePage(), &GamePage::green_rotate, &green_tankVM, &TankViewModel::get_rotateCommand);
 
-    connect(mainWND.getGamePage(), &GamePage::green_move, &green_tankVM, &TankViewModel::get_moveCommand);
-    connect(mainWND.getGamePage(), &GamePage::green_rotate, &green_tankVM, &TankViewModel::get_rotateCommand);
+    connect(mainWND.getGamePage(), &GamePage::tank_move, &mapVM, &MapViewModel::get_moveCommand);
 
     //notifications
-    connect(&red_tankVM, &TankViewModel::tank_move, mainWND.getGamePage(), &GamePage::get_Notification);
+    // connect(&red_tankVM, &TankViewModel::tank_move, mainWND.getGamePage(), &GamePage::get_Notification);
+    // connect(&green_tankVM, &TankViewModel::tank_move, mainWND.getGamePage(), &GamePage::get_Notification);
 
-    connect(&green_tankVM, &TankViewModel::tank_move, mainWND.getGamePage(), &GamePage::get_Notification);
+    connect(&mapVM, &MapViewModel::tank_move, mainWND.getGamePage(), &GamePage::get_Notification);
 
     mainWND.show();
 }

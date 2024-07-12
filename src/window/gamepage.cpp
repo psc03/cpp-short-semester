@@ -1,5 +1,5 @@
 #include "gamepage.h"
-#include "common.h"
+// #include "common.h"
 // #include "tankviewmodel.h"
 #include <QGraphicsView>
 #include <QGraphicsScene>
@@ -153,21 +153,33 @@ void GamePage::attach_greenTank(TPoint *tank)
     this->greenTank = tank;
 }
 
-void GamePage::get_Notification(qint32 eId)
+// void GamePage::get_Notification(qint32 eId)
+// {
+//     // Q_UNUSED(eId);
+//     // TPoint *tank_sender = qobject_cast<TankViewModel *>(sender())->get_tank();
+//     if(eId == TANK_MOVE_FORWARD || eId == TANK_MOVE_BACKWARD){
+//         this->redTankItem->setPos(this->redTank->getX(), this->redTank->getY());
+//     }
+//     else if(eId == TANK_ROTATE_LEFT || eId == TANK_ROTATE_RIGHT){
+//         this->redTankItem->setRotation(this->redTank->getAngle());
+//     }
+//     else if(eId == -1 * TANK_MOVE_FORWARD || eId == -1 * TANK_MOVE_FORWARD){
+//         this->greenTankItem->setPos(this->greenTank->getX(), this->greenTank->getY());
+//     }
+//     else if(eId == -1 * TANK_ROTATE_LEFT || eId == -1 * TANK_ROTATE_RIGHT){
+//         this->greenTankItem->setRotation(this->greenTank->getAngle());
+//     }
+// }
+
+void GamePage::get_Notification(Item category, Notification nId)
 {
-    // Q_UNUSED(eId);
-    // TPoint *tank_sender = qobject_cast<TankViewModel *>(sender())->get_tank();
-    if(eId == TANK_MOVE_FORWARD || eId == TANK_MOVE_BACKWARD){
-        this->redTankItem->setPos(this->redTank->getX(), this->redTank->getY());
+    if(nId == TANK_MOVE_FORWARD || nId == TANK_MOVE_BACKWARD){
+        if(category == RED_TANK) this->redTankItem->setPos(this->redTank->getX(), this->redTank->getY());
+        else if(category == GREEN_TANK) this->greenTankItem->setPos(this->greenTank->getX(), this->greenTank->getY());
     }
-    else if(eId == TANK_ROTATE_LEFT || eId == TANK_ROTATE_RIGHT){
-        this->redTankItem->setRotation(this->redTank->getAngle());
-    }
-    else if(eId == -1 * TANK_MOVE_FORWARD || eId == -1 * TANK_MOVE_FORWARD){
-        this->greenTankItem->setPos(this->greenTank->getX(), this->greenTank->getY());
-    }
-    else if(eId == -1 * TANK_ROTATE_LEFT || eId == -1 * TANK_ROTATE_RIGHT){
-        this->greenTankItem->setRotation(this->greenTank->getAngle());
+    else if(nId == TANK_ROTATE_LEFT || nId == TANK_ROTATE_RIGHT){
+        if(category == RED_TANK) this->redTankItem->setRotation(this->redTank->getAngle());
+        else if(category == GREEN_TANK) this->greenTankItem->setRotation(this->greenTank->getAngle());
     }
 }
 
@@ -175,35 +187,43 @@ void GamePage::handleKeyPress_cmd()
 {
     if(keyPressed.contains(Qt::Key_W)){
         // emit keyPress_red(Qt::Key_W);
-        emit red_move(TANK_MOVE_FORWARD);
+        // emit red_move(TANK_MOVE_FORWARD);
+        emit tank_move(RED_TANK, TANK_MOVE_FORWARD);
     }
     if(keyPressed.contains(Qt::Key_S)){
         // emit keyPress_red(Qt::Key_S);
-        emit red_move(TANK_MOVE_BACKWARD);
+        // emit red_move(TANK_MOVE_BACKWARD);
+        emit tank_move(RED_TANK, TANK_MOVE_FORWARD);
     }
     if(keyPressed.contains(Qt::Key_A)){
         // emit keyPress_red(Qt::Key_A);
-        emit red_rotate(TANK_ROTATE_LEFT);
+        // emit red_rotate(TANK_ROTATE_LEFT);
+        emit tank_move(RED_TANK, TANK_ROTATE_LEFT);
     }
     if(keyPressed.contains(Qt::Key_D)){
         // emit keyPress_red(Qt::Key_D);
-        emit red_rotate(TANK_ROTATE_RIGHT);
+        // emit red_rotate(TANK_ROTATE_RIGHT);
+        emit tank_move(RED_TANK, TANK_ROTATE_RIGHT);
     }
     if(keyPressed.contains(Qt::Key_Up)){
         // emit keyPress_green(Qt::Key_Up);
-        emit green_move(TANK_MOVE_FORWARD);
+        // emit green_move(TANK_MOVE_FORWARD);
+        emit tank_move(GREEN_TANK, TANK_MOVE_FORWARD);
     }
     if(keyPressed.contains(Qt::Key_Down)){
         // emit keyPress_green(Qt::Key_Down);
-        emit green_move(TANK_MOVE_BACKWARD);
+        // emit green_move(TANK_MOVE_BACKWARD);
+        emit tank_move(GREEN_TANK, TANK_MOVE_BACKWARD);
     }
     if(keyPressed.contains(Qt::Key_Left)){
         // emit keyPress_green(Qt::Key_Left);
-        emit green_rotate(TANK_ROTATE_LEFT);
+        // emit green_rotate(TANK_ROTATE_LEFT);
+        emit tank_move(GREEN_TANK, TANK_ROTATE_LEFT);
     }
     if(keyPressed.contains(Qt::Key_Right)){
         // emit keyPress_green(Qt::Key_Right);
-        emit green_rotate(TANK_ROTATE_RIGHT);
+        // emit green_rotate(TANK_ROTATE_RIGHT);
+        emit tank_move(GREEN_TANK, TANK_ROTATE_RIGHT);
     }
     // emit keyPress_red();
 }

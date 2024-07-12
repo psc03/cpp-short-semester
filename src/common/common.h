@@ -15,22 +15,29 @@
 #define GREEN_TANK_INIT_Y 300
 #define GREEN_TANK_INIT_ANGLE 0
 
+/* bullet */
+#define BULLET_MOVE_SPEED 2.5
+
 /* mapscene */
 #define SCENE_WIDTH 491
 #define SCENE_HEIGHT 491
 
 /* notification */
-enum {
+enum Notification{
     TANK_MOVE_FORWARD = 2,
     TANK_MOVE_BACKWARD,
     TANK_ROTATE_LEFT,
-    TANK_ROTATE_RIGHT
+    TANK_ROTATE_RIGHT,
+    BULLET_MOVE
 };
 
+using Command = Notification;
+
 /* catogory */
-enum {
+enum Item{
     RED_TANK = 10,
-    GREEN_TANK
+    GREEN_TANK,
+    BULLET
 };
 
 #endif // COMMON_H

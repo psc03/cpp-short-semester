@@ -3,8 +3,9 @@
 
 #include <QWidget>
 #include <QSet>
-#include "tankitem.h"
+// #include "tankitem.h"
 #include "tpoint.h"
+#include "common.h"
 
 class QHBoxLayout;
 class QLabel;
@@ -29,16 +30,19 @@ public:
 signals:
     // void keyPress_red(QKeyEvent *event);
     // void keyPress_red(int key);
-    void red_move(int sId);
-    void red_rotate(int sId);
+    // void red_move(int sId);
+    // void red_rotate(int sId);
 
-    void green_move(int sId);
-    void green_rotate(int sId);
+    // void green_move(int sId);
+    // void green_rotate(int sId);
+
+    void tank_move(Item color, Command cId);
 
     void switchToInitialPage();
 
 public slots:
-    void get_Notification(qint32 eId);
+    // void get_Notification(qint32 eId);
+    void get_Notification(Item category, Notification nId);
 
 private slots:
     void handleKeyPress_cmd();

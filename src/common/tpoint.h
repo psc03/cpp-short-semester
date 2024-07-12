@@ -2,6 +2,7 @@
 #define TPOINT_H
 
 #include <QObject>
+#include "common.h"
 
 class TPoint : public QObject
 {
@@ -9,10 +10,14 @@ class TPoint : public QObject
 public:
     explicit TPoint(QObject *parent = nullptr);
     TPoint(qreal x, qreal y, qreal angle = 0, QObject *parent = nullptr);
+    TPoint(qreal x, qreal y, Item category = RED_TANK, qreal angle = 0, QObject *parent = nullptr);
     ~TPoint();
 
     virtual int getId();
     virtual void setId(int id);
+
+    virtual Item getCategory();
+    virtual void setCategory(Item category);
 
     virtual QPointF position() const;
     virtual qreal getX() const;
@@ -31,6 +36,7 @@ public:
 
 protected:
     int id;
+    Item category;
     qreal x;
     qreal y;
     qreal angle;
