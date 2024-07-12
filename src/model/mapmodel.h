@@ -39,6 +39,7 @@ private:
     QTimer *bullet_move_timer;
 
     bool tankCanMove(Tank tankNext);
+    bool bulletCollide(Bullet *bullet, qreal &deltaX, qreal &deltaY);
     static int max_bullets;
 };
 

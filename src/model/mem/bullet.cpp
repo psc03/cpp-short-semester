@@ -52,3 +52,24 @@ void Bullet::destroy()
     life_timer->stop();
     exist = false;
 }
+
+QVector<QPointF> Bullet::getVertices()
+{
+    QVector<QPointF> vertices;
+    QPointF leftupPoint = position();
+    QPointF leftdownPoint = leftupPoint + QPointF(0, BULLET_HEIGHT);
+    QPointF rightupPoint = leftupPoint + QPointF(BULLET_WIDTH, 0);
+    QPointF rightdownPoint = leftupPoint + QPointF(BULLET_WIDTH, BULLET_HEIGHT);
+    vertices.push_back(leftupPoint);
+    vertices.push_back(leftdownPoint);
+    vertices.push_back(rightupPoint);
+    vertices.push_back(rightdownPoint);
+    return vertices;
+}
+
+QPointF Bullet::getNextPosition()
+{
+    QPointF delta = QPointF(qCos(qDegreesToRadians(angle)) * BULLET_MOVE_SPEED, qSin(qDegreesToRadians(angle)) * BULLET_MOVE_SPEED);
+    QPointF newPos = this->position() + delta;
+    return newPos;
+}

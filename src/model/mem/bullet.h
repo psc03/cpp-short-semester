@@ -16,6 +16,8 @@ public:
     bool isAvailable();
     void setExist();
     void destroy();
+    QVector<QPointF> getVertices();
+    QPointF getNextPosition();
 
 private:
     bool exist; // 是否存在地图中

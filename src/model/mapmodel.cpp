@@ -220,16 +220,45 @@ void MapModel::tank_shoot(Item color)
 void MapModel::bullet_move()
 {
     // int count = 0;
+    qreal deltaX = 0;
+    qreal deltaY = 0;
     for(int i = 0; i < red_bullets.size(); i++){
         if(!red_bullets[i]->isAvailable()){
             // TODO: MoveForward之前检测
-            red_bullets[i]->moveForward();
+            if(bulletCollide(red_bullets[i], deltaX, deltaY)){
+                if(deltaX == 0){ // 撞横着的墙
+                    QPointF nextPosition = red_bullets[i]->getNextPosition();
+                    red_bullets[i]->setPos(nextPosition.x() + deltaX, nextPosition.y() + deltaY);
+                    red_bullets[i]->setAngle(-1 * red_bullets[i]->getAngle());
+                }
+                else { // 撞竖着的墙
+                    QPointF nextPosition = red_bullets[i]->getNextPosition();
+                    red_bullets[i]->setPos(nextPosition.x() + deltaX, nextPosition.y() + deltaY);
+                    red_bullets[i]->setAngle(180 - red_bullets[i]->getAngle());
+                }
+
+            }
+            else red_bullets[i]->moveForward();
+            // QPointF point = red_bullets[i]->position();
+            // qreal angle = red_bullets[i]->getAngle();
             // count++;
         }
     }
     for(int i = 0; i < green_bullets.size(); i++){
         if(!green_bullets[i]->isAvailable()){
-            green_bullets[i]->moveForward();
+            if(bulletCollide(green_bullets[i], deltaX, deltaY)){
+                if(deltaX == 0){ // 撞横着的墙
+                    QPointF nextPosition = green_bullets[i]->getNextPosition();
+                    green_bullets[i]->setPos(nextPosition.x() + deltaX, nextPosition.y() + deltaY);
+                    green_bullets[i]->setAngle(-1 * green_bullets[i]->getAngle());
+                }
+                else { // 撞竖着的墙
+                    QPointF nextPosition = green_bullets[i]->getNextPosition();
+                    green_bullets[i]->setPos(nextPosition.x() + deltaX, nextPosition.y() + deltaY);
+                    green_bullets[i]->setAngle(180 - green_bullets[i]->getAngle());
+                }
+            }
+            else green_bullets[i]->moveForward();
             // count++;
         }
     }
@@ -257,5 +286,58 @@ bool MapModel::tankCanMove(Tank tankNext)
         }
     }
     return true;
+}
+
+bool MapModel::bulletCollide(Bullet *bullet, qreal &deltaX, qreal &deltaY)
+{
+    Bullet bulletNext = *bullet;
+    bulletNext.moveForward();
+    QVector<QPointF> bulletVertices = bulletNext.getVertices();
+    QRectF bulletRect(bulletNext.position().x(), bulletNext.position().y(), BULLET_WIDTH, BULLET_HEIGHT);
+    deltaX = 0;
+    deltaY = 0;
+    // 边界
+    for (auto vertex : bulletVertices) {
+        if(vertex.x() < 0){
+            deltaX = 2 * 0 - 2 * bulletRect.left();
+            return true;
+        }
+        else if(vertex.x() > SCENE_WIDTH){
+            deltaX = 2 * SCENE_WIDTH - 2 * bulletRect.right();
+            return true;
+        }
+        else if(vertex.y() < 0){
+            deltaY = 2 * 0 - 2 * bulletRect.top();
+            return true;
+        }
+        else if(vertex.y() > SCENE_HEIGHT){
+            deltaY = 2 * SCENE_HEIGHT - 2 * bulletRect.bottom();
+            return true;
+        }
+    }
+    // 墙壁
+    for (auto wall : walls) {
+        QRectF wallRect(wall->getX(), wall->getY(), wall->getWidth(), wall->getHeight());
+        // if(!bulletRect.intersects(wallRect)) continue;
+        QRectF intersection = bulletRect.intersected(wallRect);
+        if(intersection.isEmpty()) continue;
+        if(intersection.left() != bulletRect.left()){
+            deltaX = 2 * wallRect.left() - 2 * bulletRect.right();
+            return true;
+        }
+        else if(intersection.right() != bulletRect.right()){
+            deltaX = 2 * wallRect.right() - 2 * bulletRect.left();
+            return true;
+        }
+        else if(intersection.bottom() != bulletRect.bottom()){
+            deltaY = 2 * wallRect.bottom() - 2 * bulletRect.top();
+            return true;
+        }
+        else if(intersection.top() != bulletRect.top()){
+            deltaY = 2 * wallRect.top() - 2 * bulletRect.bottom();
+            return true;
+        }
+    }
+    return false;
 }
 
