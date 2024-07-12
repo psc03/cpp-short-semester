@@ -17,7 +17,7 @@ public:
     void moveBackward();
     void rotateLeft();
     void rotateRight();
-
+    QVector<QPointF> getVertices();
 private:
     Item color;
 };

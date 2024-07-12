@@ -185,6 +185,7 @@ void GamePage::get_Notification(Item category, Notification nId)
 
 void GamePage::handleKeyPress_cmd()
 {
+    // qDebug() << "position "<< redTankItem->x()<<" "<<redTankItem->y();
     if(keyPressed.contains(Qt::Key_W)){
         // emit keyPress_red(Qt::Key_W);
         // emit red_move(TANK_MOVE_FORWARD);
@@ -193,7 +194,7 @@ void GamePage::handleKeyPress_cmd()
     if(keyPressed.contains(Qt::Key_S)){
         // emit keyPress_red(Qt::Key_S);
         // emit red_move(TANK_MOVE_BACKWARD);
-        emit tank_move(RED_TANK, TANK_MOVE_FORWARD);
+        emit tank_move(RED_TANK, TANK_MOVE_BACKWARD);
     }
     if(keyPressed.contains(Qt::Key_A)){
         // emit keyPress_red(Qt::Key_A);

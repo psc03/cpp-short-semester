@@ -51,3 +51,28 @@ void Tank::rotateRight()
     qreal newAngle = this->getAngle() + TANK_ROTATE_SPEED;
     this->setAngle(newAngle);
 }
+
+QVector<QPointF> Tank::getVertices()
+{
+    QVector<QPointF> vertices;
+    QPointF leftupPoint = position();
+    QPointF centralPoint = leftupPoint + QPointF(TANK_WIDTH/2.0,TANK_HEIGHT/2.0);
+
+    QPointF point = centralPoint
+                    + QPointF(qCos(qDegreesToRadians(angle)) * TANK_WIDTH/2.0, qSin(qDegreesToRadians(angle)) * TANK_WIDTH/2.0)
+                    + QPointF(qCos(qDegreesToRadians(angle + 90)) * TANK_HEIGHT/2.0, qSin(qDegreesToRadians(angle + 90)) * TANK_HEIGHT/2.0);
+    vertices.push_back(point);
+    point = centralPoint
+        + QPointF(qCos(qDegreesToRadians(angle)) * TANK_WIDTH/2.0, qSin(qDegreesToRadians(angle)) * TANK_WIDTH/2.0)
+        + QPointF(qCos(qDegreesToRadians(angle - 90)) * TANK_HEIGHT/2.0, qSin(qDegreesToRadians(angle - 90)) * TANK_HEIGHT/2.0);
+    vertices.push_back(point);
+    point = centralPoint
+            - QPointF(qCos(qDegreesToRadians(angle)) * TANK_WIDTH/2.0, qSin(qDegreesToRadians(angle)) * TANK_WIDTH/2.0)
+            + QPointF(qCos(qDegreesToRadians(angle + 90)) * TANK_HEIGHT/2.0, qSin(qDegreesToRadians(angle + 90)) * TANK_HEIGHT/2.0);
+    vertices.push_back(point);
+    point = centralPoint
+            - QPointF(qCos(qDegreesToRadians(angle)) * TANK_WIDTH/2.0, qSin(qDegreesToRadians(angle)) * TANK_WIDTH/2.0)
+            + QPointF(qCos(qDegreesToRadians(angle - 90)) * TANK_HEIGHT/2.0, qSin(qDegreesToRadians(angle - 90)) * TANK_HEIGHT/2.0);
+    vertices.push_back(point);
+    return vertices;
+}

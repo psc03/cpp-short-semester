@@ -28,7 +28,7 @@ private:
     Tank *green_tank;
     QVector<Bullet *> red_bullet;
     QVector<Bullet *> green_bullet;
-
+    bool tankCanMove(Tank tankNext);
     static int max_bullets;
 };
 

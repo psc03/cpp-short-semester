@@ -4,10 +4,12 @@
 /* Tank */
 #define TANK_MOVE_SPEED 2.5
 #define TANK_ROTATE_SPEED 2.5
+#define TANK_HEIGHT 25
+#define TANK_WIDTH 40
 
 /* red_tank */
-#define RED_TANK_INIT_X 0
-#define RED_TANK_INIT_Y 0
+#define RED_TANK_INIT_X 50
+#define RED_TANK_INIT_Y 50
 #define RED_TANK_INIT_ANGLE 0
 
 /* green_tank */
@@ -17,6 +19,9 @@
 
 /* bullet */
 #define BULLET_MOVE_SPEED 2.5
+// TODO:
+#define BULLET_HEIGHT 11
+#define BULLET_WIDTH 11
 
 /* mapscene */
 #define SCENE_WIDTH 491

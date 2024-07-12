@@ -11,6 +11,7 @@ public:
     explicit TPoint(QObject *parent = nullptr);
     TPoint(qreal x, qreal y, qreal angle = 0, QObject *parent = nullptr);
     TPoint(qreal x, qreal y, Item category = RED_TANK, qreal angle = 0, QObject *parent = nullptr);
+    TPoint (const TPoint & others);
     ~TPoint();
 
     virtual int getId();

@@ -28,6 +28,16 @@ TPoint::TPoint(qreal x, qreal y, Item category, qreal angle, QObject *parent)
 
 }
 
+TPoint::TPoint(const TPoint &others)
+    : QObject{nullptr},
+    category(others.category),
+    x(others.x),
+    y(others.y),
+    angle(others.angle)
+{
+
+}
+
 TPoint::~TPoint()
 {
 
