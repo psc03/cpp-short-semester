@@ -5,14 +5,9 @@
 #include <QSet>
 #include <QVector>
 #include <QGraphicsRectItem>
-// #include "tankitem.h"
 #include "tpoint.h"
-
-// TODO: 哪里放置wall
-
 #include "mem/wall.h"
 #include "common.h"
-
 // sound
 #include <QMediaPlayer>
 #include <QAudioOutput>
@@ -33,8 +28,6 @@ public:
     explicit GamePage(QWidget *parent = nullptr);
     ~GamePage();
     void init();
-    // void attach_redTankItem(TankItem *tankItem);
-    // void attach_greenTankItem(TankItem *tankItem);
     void attach_redTank(TPoint *tank);
     void attach_greenTank(TPoint *tank);
     void attach_bullets(QVector<TPoint *> *bullets);
@@ -59,8 +52,6 @@ private:
     QGraphicsView *gameBoard;
 
     QGraphicsScene *scene;
-    // TankItem *redTankItem;
-    // TankItem *greenTankItem;
     QGraphicsPixmapItem *redTankItem;
     QGraphicsPixmapItem *greenTankItem;
     QVector<QGraphicsEllipseItem *> bulletItems;
@@ -96,8 +87,8 @@ private:
 
     int *redScore;
     int *greenScore;
-    // QWidget interface
 
+    // QWidget interface
 protected:
     virtual void keyPressEvent(QKeyEvent *event) override;
     virtual void keyReleaseEvent(QKeyEvent *event) override;

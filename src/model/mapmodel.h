@@ -5,8 +5,8 @@
 #include <QVector>
 #include "mem/tank.h"
 #include "mem/bullet.h"
-#include "common.h"
 #include "mem/wall.h"
+#include "common.h"
 
 
 class MapModel : public QObject

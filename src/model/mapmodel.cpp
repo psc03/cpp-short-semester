@@ -4,6 +4,7 @@
 #include <QRectF>
 #include <QDebug>
 #include <QRandomGenerator>
+
 int MapModel::max_bullets = MAX_TANK_BULLETS;
 
 MapModel::MapModel(QObject *parent)
@@ -251,7 +252,7 @@ QPointF MapModel::randomPosition()
 
 void MapModel::resetBoard()
 {
-    qDebug() << "reset Board";
+    // qDebug() << "reset Board";
     // Tank position and angle
     red_tank->setAngle(RED_TANK_INIT_ANGLE);
     red_tank->setPos(randomPosition());
@@ -270,8 +271,6 @@ void MapModel::resetBoard()
         bullet->destroy();
     }
     emit bullet_change(BULLET, BULLET_CHANGE);
-    //
-
 }
 
 void MapModel::resetGame()
@@ -300,7 +299,6 @@ void MapModel::bullet_move()
     if(reset_interval->isActive()){
         return ;
     }
-    // int count = 0;
     qreal deltaX = 0;
     qreal deltaY = 0;
     for(int i = 0; i < red_bullets.size(); i++){
@@ -324,9 +322,6 @@ void MapModel::bullet_move()
 
             }
             else red_bullets[i]->moveForward();
-            // QPointF point = red_bullets[i]->position();
-            // qreal angle = red_bullets[i]->getAngle();
-            // count++;
         }
     }
     for(int i = 0; i < green_bullets.size(); i++){
@@ -349,7 +344,6 @@ void MapModel::bullet_move()
                 }
             }
             else green_bullets[i]->moveForward();
-            // count++;
         }
     }
     // qDebug() << "count " << count;
@@ -396,9 +390,8 @@ bool MapModel::bulletCollide(Bullet *bullet, qreal &deltaX, qreal &deltaY)
     deltaY = 0;
     // Tank
     if(!redtankPolygon.intersected(bulletRect).isEmpty()){
-        qDebug() << "red hit ";
+        // qDebug() << "red hit ";
         tankHited(RED_TANK);
-        // emit tank_hit(RED_TANK);
     }
     if(!greentankPolygon.intersected(bulletRect).isEmpty()){
         tankHited(GREEN_TANK);
@@ -407,43 +400,34 @@ bool MapModel::bulletCollide(Bullet *bullet, qreal &deltaX, qreal &deltaY)
     for (auto vertex : bulletVertices) {
         if(vertex.x() < 0){
             deltaX = 2 * 0 - 2 * bulletRect.left();
-            // return true;
         }
         else if(vertex.x() > SCENE_WIDTH){
             deltaX = 2 * SCENE_WIDTH - 2 * bulletRect.right();
-            // return true;
         }
         if(vertex.y() < 0){
             deltaY = 2 * 0 - 2 * bulletRect.top();
-            // return true;
         }
         else if(vertex.y() > SCENE_HEIGHT){
             deltaY = 2 * SCENE_HEIGHT - 2 * bulletRect.bottom();
-            // return true;
         }
         if(deltaX != 0 || deltaY != 0) return true;
     }
     // 墙壁
     for (auto wall : walls) {
         QRectF wallRect(wall->getX(), wall->getY(), wall->getWidth(), wall->getHeight());
-        // if(!bulletRect.intersects(wallRect)) continue;
         QRectF intersection = bulletRect.intersected(wallRect);
         if(intersection.isEmpty()) continue;
         if(intersection.width() <= intersection.height() && intersection.left() > bulletRect.left()){
             deltaX = 2 * wallRect.left() - 2 * bulletRect.right();
-            // return true;
         }
         else if(intersection.width() <= intersection.height() && intersection.right() < bulletRect.right()){
             deltaX = 2 * wallRect.right() - 2 * bulletRect.left();
-            // return true;
         }
         if(intersection.width() >= intersection.height() && intersection.bottom() < bulletRect.bottom()){
             deltaY = 2 * wallRect.bottom() - 2 * bulletRect.top();
-            // return true;
         }
         else if(intersection.width() >= intersection.height() && intersection.top() > bulletRect.top()){
             deltaY = 2 * wallRect.top() - 2 * bulletRect.bottom();
-            // return true;
         }
         if(deltaX != 0 || deltaY != 0) return true;
     }

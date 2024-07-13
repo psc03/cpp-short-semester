@@ -1,5 +1,6 @@
 #ifndef WALL_H
 #define WALL_H
+
 #include <QPointF>
 #include <QObject>
 
@@ -17,7 +18,6 @@ public:
     qreal getHeight();
     // 判断某个点是否在wall中
     bool inWall(QPointF position);
-    // QVector<QPointF> getVertices();
 private:
     qreal x;
     qreal y;

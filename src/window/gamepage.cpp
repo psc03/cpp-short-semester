@@ -35,7 +35,7 @@ GamePage::GamePage(QWidget *parent)
 
 GamePage::~GamePage()
 {
-    // delete this;
+
 }
 
 void GamePage::init()
@@ -50,7 +50,6 @@ void GamePage::init()
 
     scoreBoard->setObjectName("scoreBoard");
     scoreBoard->setContentsMargins(0, 0, 0, 0);
-    // scoreBoard->setGeometry(QRect(17, 509, 464, 82));
 
 
     sb_redTank->setObjectName("sb_redTank");
@@ -118,8 +117,8 @@ void GamePage::init()
     // 设置视图
     gameBoard->setScene(scene);
     scene->setSceneRect(0, 0, gameBoard->width(), gameBoard->height());
-    qDebug() << gameBoard->width() << Qt::endl;
-    qDebug() << gameBoard->height() << Qt::endl;
+    // qDebug() << gameBoard->width() << Qt::endl;
+    // qDebug() << gameBoard->height() << Qt::endl;
 
     connect(commandTimer, &QTimer::timeout, this, &GamePage::handleKeyPress_cmd);
     commandTimer->start(8);  // 大约60帧每秒
@@ -162,7 +161,6 @@ void GamePage::attach_bullets(QVector<TPoint *> *bullets)
 void GamePage::attach_walls(QVector<Wall *> *walls)
 {
     this->walls = walls;
-    // Walls TODO: ?
     for(auto wall: (*walls)){
         QGraphicsRectItem* wallItem = new QGraphicsRectItem(wall->getX(), wall->getY(), wall->getWidth(), wall->getHeight());
         wallItem->setBrush(QBrush(Qt::black));
@@ -196,7 +194,7 @@ void GamePage::get_Notification(Item category, Notification nId)
         }
     }
     if(nId == SCORE_CHANGE){
-        qDebug() << " nId " << nId;
+        // qDebug() << " nId " << nId;
         if(boom->playbackState()==QMediaPlayer::PlayingState)
             boom->setPosition(0);
         else if(boom->playbackState()==QMediaPlayer::StoppedState)
@@ -220,7 +218,7 @@ void GamePage::get_Notification(Item category, Notification nId)
         }
     } else if(nId == TANK_MOVE_FORWARD)
     {
-        qDebug() << " nId " << nId;
+        // qDebug() << " nId " << nId;
         redScoreLCD->setStyleSheet("QLCDNumber { color: black; }");
         greenScoreLCD->setStyleSheet("QLCDNumber { color: black; }");
         score_display->setVisible(false);
@@ -231,23 +229,15 @@ void GamePage::handleKeyPress_cmd()
 {
     // qDebug() << "position "<< redTankItem->x()<<" "<<redTankItem->y();
     if(keyPressed.contains(Qt::Key_W)){
-        // emit keyPress_red(Qt::Key_W);
-        // emit red_move(TANK_MOVE_FORWARD);
         emit tank_move(RED_TANK, TANK_MOVE_FORWARD);
     }
     if(keyPressed.contains(Qt::Key_S)){
-        // emit keyPress_red(Qt::Key_S);
-        // emit red_move(TANK_MOVE_BACKWARD);
         emit tank_move(RED_TANK, TANK_MOVE_BACKWARD);
     }
     if(keyPressed.contains(Qt::Key_A)){
-        // emit keyPress_red(Qt::Key_A);
-        // emit red_rotate(TANK_ROTATE_LEFT);
         emit tank_move(RED_TANK, TANK_ROTATE_LEFT);
     }
     if(keyPressed.contains(Qt::Key_D)){
-        // emit keyPress_red(Qt::Key_D);
-        // emit red_rotate(TANK_ROTATE_RIGHT);
         emit tank_move(RED_TANK, TANK_ROTATE_RIGHT);
     }
     if(keyPressed.contains(Qt::Key_Space) && !redTankShootTimer->isActive()){
@@ -259,23 +249,15 @@ void GamePage::handleKeyPress_cmd()
         emit tank_shoot(RED_TANK, TANK_SHOOT);
     }
     if(keyPressed.contains(Qt::Key_Up)){
-        // emit keyPress_green(Qt::Key_Up);
-        // emit green_move(TANK_MOVE_FORWARD);
         emit tank_move(GREEN_TANK, TANK_MOVE_FORWARD);
     }
     if(keyPressed.contains(Qt::Key_Down)){
-        // emit keyPress_green(Qt::Key_Down);
-        // emit green_move(TANK_MOVE_BACKWARD);
         emit tank_move(GREEN_TANK, TANK_MOVE_BACKWARD);
     }
     if(keyPressed.contains(Qt::Key_Left)){
-        // emit keyPress_green(Qt::Key_Left);
-        // emit green_rotate(TANK_ROTATE_LEFT);
         emit tank_move(GREEN_TANK, TANK_ROTATE_LEFT);
     }
     if(keyPressed.contains(Qt::Key_Right)){
-        // emit keyPress_green(Qt::Key_Right);
-        // emit green_rotate(TANK_ROTATE_RIGHT);
         emit tank_move(GREEN_TANK, TANK_ROTATE_RIGHT);
     }
     if(keyPressed.contains(Qt::Key_M) && !greenTankShootTimer->isActive()){
@@ -286,7 +268,6 @@ void GamePage::handleKeyPress_cmd()
             shoot2->play();
         emit tank_shoot(GREEN_TANK, TANK_SHOOT);
     }
-    // emit keyPress_red();
 }
 
 void GamePage::keyPressEvent(QKeyEvent *event)
@@ -312,7 +293,6 @@ void GamePage::keyPressEvent(QKeyEvent *event)
     }
 }
 
-
 void GamePage::keyReleaseEvent(QKeyEvent *event)
 {
     if(event->key() == Qt::Key_W || event->key() == Qt::Key_S ||
@@ -325,7 +305,7 @@ void GamePage::keyReleaseEvent(QKeyEvent *event)
         keyPressed.remove(event->key());
     }
     if(event->key() == Qt::Key_R){
-        qDebug() << "stop";
+        // qDebug() << "stop";
         resetGameTimer->stop();
     }
     // QWidget::keyPressEvent(event);

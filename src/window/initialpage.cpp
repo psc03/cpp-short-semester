@@ -15,7 +15,7 @@ InitialPage::InitialPage(QWidget *parent)
 
 InitialPage::~InitialPage()
 {
-    // delete this;
+
 }
 
 void InitialPage::Init()

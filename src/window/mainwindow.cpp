@@ -6,7 +6,6 @@
 #include <QGraphicsPixmapItem>
 
 MainWindow::MainWindow(QWidget *parent)
-    // : QWidget{parent},
     : QMainWindow{parent},
     stackedWidget(new QStackedWidget(this)),
     initialpage(new InitialPage(this)),
@@ -18,7 +17,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
-    // delete this;
+
 }
 
 void MainWindow::init()

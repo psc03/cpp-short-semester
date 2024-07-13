@@ -21,10 +21,7 @@ public:
 
 private:
     bool exist; // 是否存在地图中
-    // QTimer *move_timer;
     QTimer *life_timer;
-
-    // friend class MapModel;
 };
 
 #endif // BULLET_H

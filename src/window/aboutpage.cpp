@@ -1,5 +1,6 @@
 #include "aboutpage.h"
 #include <QDebug>
+
 AboutPage::AboutPage(QWidget *parent) : QWidget(parent) {
     this->setGeometry(0, 0, 500, 600);
     this->setWindowTitle("Form");
@@ -140,8 +141,6 @@ AboutPage::AboutPage(QWidget *parent) : QWidget(parent) {
 
     backGround->lower();
 
-    // connect
-
 }
 
 AboutPage::~AboutPage()
@@ -151,6 +150,6 @@ AboutPage::~AboutPage()
 
 void AboutPage::on_pushButton_clicked()
 {
-    qDebug() << "on_pushButton";
+    // qDebug() << "on_pushButton";
     emit AboutPage::switchToInitialPage();
 }

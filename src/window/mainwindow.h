@@ -20,8 +20,6 @@ public:
     void init();
     GamePage* getGamePage();
 
-// signals:
-
 private slots:
     void do_showInitialPage();
     void do_showAboutPage();

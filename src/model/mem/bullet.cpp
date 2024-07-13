@@ -39,10 +39,6 @@ void Bullet::setExist()
 {
     exist = true;
     if(exist){
-        // move_timer = new QTimer(this);
-        // move_timer->start(BULLET_MOVE_TIMER);
-        // connect(move_timer, &QTimer::timeout, this, &Bullet::moveForward);
-
         life_timer->start(BULLET_LIFETIME);
     }
 }
