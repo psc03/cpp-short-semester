@@ -14,12 +14,11 @@ MapModel::MapModel(QObject *parent)
     redScore(0),
     greenScore(0)
 {
-    // red_bullets.resize(max_bullets);
     for(int i = 0; i < max_bullets; i++){
         Bullet *bullet = new Bullet();
         red_bullets.push_back(bullet);
     }
-    // green_bullets.resize(max_bullets);
+
     for(int i = 0; i < max_bullets; i++){
         Bullet *bullet = new Bullet();
         green_bullets.push_back(bullet);

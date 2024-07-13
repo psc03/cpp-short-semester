@@ -42,12 +42,3 @@ bool Wall::inWall(QPointF position)
     else
         return false;
 }
-// QVector<QPointF> Wall::getVertices()
-// {
-//     QVector<QPointF> vertices;
-//     vertices.emplaceBack(x,y);
-//     vertices.emplaceBack(x + width, y);
-//     vertices.emplaceBack(x, y + height);
-//     vertices.emplaceBack(x + width, y + height);
-//     return vertices;
-// }

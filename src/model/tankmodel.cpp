@@ -23,20 +23,18 @@ void TankModel::moveForward()
 {
     QPointF delta = QPointF(qCos(qDegreesToRadians(angle)) * TANK_MOVE_SPEED, qSin(qDegreesToRadians(angle)) * TANK_MOVE_SPEED);
     QPointF newPos = this->position() + delta;
-    // if(canMove(newPos, tankItem)){
-        this->setPos(newPos);
-        emit tank_move(TANK_MOVE_FORWARD);
-    // }
+    this->setPos(newPos);
+    emit tank_move(TANK_MOVE_FORWARD);
 }
 
 void TankModel::moveBackward()
 {
     QPointF delta = QPointF(qCos(qDegreesToRadians(angle)) * TANK_MOVE_SPEED, qSin(qDegreesToRadians(angle)) * TANK_MOVE_SPEED);
     QPointF newPos = this->position() - delta;
-    // if(canMove(newPos, tankItem)){
-        this->setPos(newPos);
-        emit tank_move(TANK_MOVE_BACKWARD);
-    // }
+
+    this->setPos(newPos);
+    emit tank_move(TANK_MOVE_BACKWARD);
+
 }
 
 void TankModel::rotateLeft()
