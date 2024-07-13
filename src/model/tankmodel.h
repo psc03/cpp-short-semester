@@ -2,7 +2,6 @@
 #define TANKMODEL_H
 
 #include <QObject>
-// #include "object.h"
 #include "tpoint.h"
 #include <tankitem.h>
 
@@ -13,8 +12,7 @@ public:
     explicit TankModel(QObject *parent = nullptr);
     TankModel(qreal x, qreal y, qreal angle = 0, QObject *parent = nullptr);
     ~TankModel();
-    // void moveForward(TankItem *tankItem);
-    // void moveBackward(TankItem *tankItem);
+
     void moveForward();
     void moveBackward();
     void rotateLeft();
@@ -24,7 +22,7 @@ signals:
     void tank_move(qint32 eId);
 
 private:
-    // bool canMove(const QPointF &newPos, TankItem *tankItem);
+
 };
 
 #endif // TANKMODEL_H
