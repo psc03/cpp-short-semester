@@ -32,9 +32,6 @@ void GameApp::init()
     connect(&mapModel, &MapModel::bullet_change, &mapVM, &MapViewModel::get_Notification);
     connect(&mapModel, &MapModel::score_change, &mapVM, &MapViewModel::get_Notification);
     // properties
-    // mainWND.getGamePage()->attach_redTankItem(red_tankVM.get_tankItem());
-    // mainWND.getGamePage()->attach_redTank(red_tankVM.get_tank());
-    // mainWND.getGamePage()->attach_greenTank(green_tankVM.get_tank());
 
     mainWND.getGamePage()->attach_redTank(mapVM.get_tank(RED_TANK));
 

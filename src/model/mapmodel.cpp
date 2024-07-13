@@ -11,6 +11,7 @@ MapModel::MapModel(QObject *parent)
     red_tank(new Tank(RED_TANK, RED_TANK_INIT_X, RED_TANK_INIT_Y, RED_TANK_INIT_ANGLE)),
     green_tank(new Tank(GREEN_TANK, GREEN_TANK_INIT_X, GREEN_TANK_INIT_Y, GREEN_TANK_INIT_ANGLE)),
     bullet_move_timer(new QTimer(this)),
+    reset_interval(new QTimer(this)),
     redScore(0),
     greenScore(0)
 {
@@ -25,7 +26,8 @@ MapModel::MapModel(QObject *parent)
     }
     bullet_move_timer->start(BULLET_MOVE_TIMER);
     connect(bullet_move_timer, &QTimer::timeout, this, &MapModel::bullet_move);
-
+    reset_interval->setSingleShot(true);
+    connect(reset_interval,&QTimer::timeout,this, &MapModel::resetBoard);
     // walls
     walls.push_back(new Wall(100, 0, 4, 100));
     walls.push_back(new Wall(246, 53, 4, 150));
@@ -87,7 +89,9 @@ int MapModel::getGreenScore()
 
 void MapModel::tank_moveForward(Item category)
 {
-
+    if(reset_interval->isActive()){
+        return ;
+    }
     if(category == RED_TANK){
         Tank nextTank = *red_tank;
         nextTank.moveForward();
@@ -110,6 +114,9 @@ void MapModel::tank_moveForward(Item category)
 
 void MapModel::tank_moveBackward(Item category)
 {
+    if(reset_interval->isActive()){
+        return ;
+    }
     if(category == RED_TANK){
         Tank nextTank = *red_tank;
         nextTank.moveBackward();
@@ -132,6 +139,9 @@ void MapModel::tank_moveBackward(Item category)
 
 void MapModel::tank_rotateLeft(Item category)
 {
+    if(reset_interval->isActive()){
+        return ;
+    }
     if(category == RED_TANK){
         Tank nextTank = *red_tank;
         nextTank.rotateLeft();
@@ -154,6 +164,9 @@ void MapModel::tank_rotateLeft(Item category)
 
 void MapModel::tank_rotateRight(Item category)
 {
+    if(reset_interval->isActive()){
+        return ;
+    }
     if(category == RED_TANK){
         Tank nextTank = *red_tank;
         nextTank.rotateRight();
@@ -176,6 +189,9 @@ void MapModel::tank_rotateRight(Item category)
 
 void MapModel::tank_shoot(Item color)
 {
+    if(reset_interval->isActive()){
+        return ;
+    }
     Bullet *shoot = nullptr;
     if(color == RED_TANK){
         // get available red bullet
@@ -235,6 +251,7 @@ QPointF MapModel::randomPosition()
 
 void MapModel::resetBoard()
 {
+    qDebug() << "reset Board";
     // Tank position and angle
     red_tank->setAngle(RED_TANK_INIT_ANGLE);
     red_tank->setPos(randomPosition());
@@ -275,11 +292,14 @@ void MapModel::tankHited(Item color)
         redScore++;
         emit score_change(RED_SCORE, SCORE_CHANGE);
     }
-    resetBoard();
+    reset_interval->start(2000);
 }
 
 void MapModel::bullet_move()
 {
+    if(reset_interval->isActive()){
+        return ;
+    }
     // int count = 0;
     qreal deltaX = 0;
     qreal deltaY = 0;
@@ -360,6 +380,9 @@ bool MapModel::tankCanMove(Tank tankNext)
 
 bool MapModel::bulletCollide(Bullet *bullet, qreal &deltaX, qreal &deltaY)
 {
+    if(reset_interval->isActive()){
+        return false;
+    }
     Bullet bulletNext = *bullet;
     bulletNext.moveForward();
     QVector<QPointF> bulletVertices = bulletNext.getVertices();
