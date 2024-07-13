@@ -28,6 +28,7 @@ public slots:
     void get_moveCommand(Item category, Command cId);
     // void get_rotateCommand(Item category, Command cId);
     void get_shootCommand(Item category, Command cId);
+    void get_clearCommand();
     void get_Notification(Item category, Notification nId);
 
 

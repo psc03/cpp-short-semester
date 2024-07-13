@@ -123,8 +123,8 @@ AboutPage::AboutPage(QWidget *parent) : QWidget(parent) {
     label_6->setGeometry(29, 327, 81, 41);
     label_6->setFont(label5Font);
 
-    label_7 = new QLabel("在游戏过程中，可以按下 “Esc” 键退出当前游戏", this);
-    label_7->setGeometry(20, 280, 371, 31);
+    label_7 = new QLabel("在游戏过程中，可以按下 “Esc” 键退出当前游戏\n长按 “R” 键重新开始", this);
+    label_7->setGeometry(25, 260, 400, 80);
     QFont label7Font("霞鹜文楷", 12);
     label_7->setFont(label7Font);
 

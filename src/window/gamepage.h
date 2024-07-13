@@ -38,21 +38,12 @@ public:
     void attach_score(int *redScore, int *greenScore);
 
 signals:
-    // void keyPress_red(QKeyEvent *event);
-    // void keyPress_red(int key);
-    // void red_move(int sId);
-    // void red_rotate(int sId);
-
-    // void green_move(int sId);
-    // void green_rotate(int sId);
-
     void tank_move(Item color, Command cId);
     void tank_shoot(Item color, Command cId);
-
+    void game_clear();
     void switchToInitialPage();
 
 public slots:
-    // void get_Notification(qint32 eId);
     void get_Notification(Item category, Notification nId);
 
 private slots:
@@ -81,6 +72,7 @@ private:
     QTimer *commandTimer;
     QTimer *redTankShootTimer; // 发射间隔 冷却时间
     QTimer *greenTankShootTimer;
+    QTimer *resetGameTimer; // 持续按键，重新开始
 
     QSet<int> keyPressed;
 

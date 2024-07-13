@@ -74,6 +74,11 @@ void MapViewModel::get_shootCommand(Item category, Command cId)
     this->mapModel->tank_shoot(category);
 }
 
+void MapViewModel::get_clearCommand()
+{
+    this->mapModel->resetGame();
+}
+
 // void MapViewModel::get_rotateCommand(Item category, Command cId)
 // {
 //     if(cId == TANK_ROTATE_LEFT){

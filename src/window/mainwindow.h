@@ -28,9 +28,6 @@ private slots:
     void do_showGamePage();
 
 private:
-    // QHBoxLayout *lay;
-    // QPixmap *tank;
-    // QCheckBox *box1;
     QStackedWidget *stackedWidget;
     InitialPage *initialpage;
     AboutPage *aboutPage;

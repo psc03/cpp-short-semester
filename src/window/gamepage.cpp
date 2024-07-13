@@ -27,9 +27,9 @@ GamePage::GamePage(QWidget *parent)
     greenScoreLCD(new QLCDNumber(scoreBoardContainer)),
     commandTimer(new QTimer(this)),
     redTankShootTimer(new QTimer(this)),
-    greenTankShootTimer(new QTimer(this))
+    greenTankShootTimer(new QTimer(this)),
+    resetGameTimer(new QTimer(this))
 {
-
     init();
 }
 
@@ -144,6 +144,8 @@ void GamePage::init()
 
     redTankShootTimer->setSingleShot(true);
     greenTankShootTimer->setSingleShot(true);
+    resetGameTimer->setSingleShot(true);
+    connect(resetGameTimer,&QTimer::timeout,this,&GamePage::game_clear);
 }
 
 // void GamePage::attach_redTankItem(TankItem *tankItem)
@@ -288,7 +290,6 @@ void GamePage::handleKeyPress_cmd()
     // emit keyPress_red();
 }
 
-
 void GamePage::keyPressEvent(QKeyEvent *event)
 {
     // Tank Operation
@@ -297,9 +298,13 @@ void GamePage::keyPressEvent(QKeyEvent *event)
         event->key() == Qt::Key_Space ||
         event->key() == Qt::Key_Up || event->key() == Qt::Key_Down ||
         event->key() == Qt::Key_Left || event->key() == Qt::Key_Right ||
-        event->key() == Qt::Key_M){
+        event->key() == Qt::Key_M || event->key() == Qt::Key_R){
         // qDebug() << "press w" << Qt::endl;
         keyPressed.insert(event->key());
+    }
+    if(keyPressed.contains(Qt::Key_R) && !resetGameTimer->isActive()){
+        // qDebug() << "reset timer";
+        resetGameTimer->start(500);
     }
     // Page Switch Key
     if(event->key() == Qt::Key_Escape){
@@ -316,9 +321,13 @@ void GamePage::keyReleaseEvent(QKeyEvent *event)
         event->key() == Qt::Key_Space ||
         event->key() == Qt::Key_Up || event->key() == Qt::Key_Down ||
         event->key() == Qt::Key_Left || event->key() == Qt::Key_Right ||
-        event->key() == Qt::Key_M){
+        event->key() == Qt::Key_M || event->key() == Qt::Key_R){
         // qDebug() << "press w" << Qt::endl;
         keyPressed.remove(event->key());
+    }
+    if(event->key() == Qt::Key_R){
+        qDebug() << "stop";
+        resetGameTimer->stop();
     }
     // QWidget::keyPressEvent(event);
 }

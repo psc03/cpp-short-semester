@@ -3,6 +3,7 @@
 #include <QPolygonF>
 #include <QRectF>
 #include <QDebug>
+#include <QRandomGenerator>
 int MapModel::max_bullets = MAX_TANK_BULLETS;
 
 MapModel::MapModel(QObject *parent)
@@ -229,19 +230,20 @@ void MapModel::tank_shoot(Item color)
 
 QPointF MapModel::randomPosition()
 {
-
+    int index = QRandomGenerator::global()->bounded(tankPositions.size());
+    return tankPositions.at(index);
 }
 
-void MapModel::reset()
+void MapModel::resetBoard()
 {
     // Tank position and angle
     red_tank->setAngle(RED_TANK_INIT_ANGLE);
-    red_tank->setPos(QPointF(RED_TANK_INIT_X, RED_TANK_INIT_Y));
+    red_tank->setPos(randomPosition());
     emit tank_move(RED_TANK, TANK_MOVE_FORWARD);
     emit tank_move(RED_TANK, TANK_ROTATE_LEFT);
 
     green_tank->setAngle(GREEN_TANK_INIT_ANGLE);
-    green_tank->setPos(QPointF(GREEN_TANK_INIT_X, GREEN_TANK_INIT_Y));
+    green_tank->setPos(randomPosition());
     emit tank_move(GREEN_TANK, TANK_MOVE_FORWARD);
     emit tank_move(GREEN_TANK, TANK_ROTATE_LEFT);
     // Bullet
@@ -256,6 +258,15 @@ void MapModel::reset()
 
 }
 
+void MapModel::resetGame()
+{
+    resetBoard();
+    redScore = 0;
+    greenScore = 0;
+    emit score_change(GREEN_SCORE,SCORE_CHANGE);
+    emit score_change(RED_SCORE,SCORE_CHANGE);
+}
+
 void MapModel::tankHited(Item color)
 {
     if(color == RED_TANK){
@@ -265,7 +276,7 @@ void MapModel::tankHited(Item color)
         redScore++;
         emit score_change(RED_SCORE, SCORE_CHANGE);
     }
-    reset();
+    resetBoard();
 }
 
 void MapModel::bullet_move()

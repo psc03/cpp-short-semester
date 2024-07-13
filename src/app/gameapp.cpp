@@ -55,7 +55,7 @@ void GameApp::init()
 
     connect(mainWND.getGamePage(), &GamePage::tank_move, &mapVM, &MapViewModel::get_moveCommand);
     connect(mainWND.getGamePage(), &GamePage::tank_shoot, &mapVM, &MapViewModel::get_shootCommand);
-
+    connect(mainWND.getGamePage(), &GamePage::game_clear,&mapVM, &MapViewModel::get_clearCommand);
     //notifications
     // connect(&red_tankVM, &TankViewModel::tank_move, mainWND.getGamePage(), &GamePage::get_Notification);
     // connect(&green_tankVM, &TankViewModel::tank_move, mainWND.getGamePage(), &GamePage::get_Notification);
