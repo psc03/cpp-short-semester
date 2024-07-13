@@ -70,6 +70,7 @@ private:
     QHBoxLayout *scoreBoard;
     QLabel *sb_redTank;
     QLabel *sb_greenTank;
+    QLabel *score_display;
     QLCDNumber *redScoreLCD;
     QLCDNumber *greenScoreLCD;
 

@@ -21,6 +21,8 @@ GamePage::GamePage(QWidget *parent)
     scoreBoard(new QHBoxLayout(scoreBoardContainer)),
     sb_redTank(new QLabel(scoreBoardContainer)),
     sb_greenTank(new QLabel(scoreBoardContainer)),
+    score_display(new QLabel(this)),
+
     redScoreLCD(new QLCDNumber(scoreBoardContainer)),
     greenScoreLCD(new QLCDNumber(scoreBoardContainer)),
     commandTimer(new QTimer(this)),
@@ -55,7 +57,6 @@ void GamePage::init()
     sb_redTank->setPixmap(QPixmap(":/pic/pictures/Tank_Red_Big.png"));
     sb_redTank->setStyleSheet("QLabel { border: 1px solid black; }");
     sb_redTank->setScaledContents(true);
-
     scoreBoard->addWidget(sb_redTank);
 
     redScoreLCD->setObjectName("redScore");
@@ -69,6 +70,14 @@ void GamePage::init()
 
 
     scoreBoard->addWidget(sb_greenTank);
+
+    score_display->setVisible(false);
+    score_display->setGeometry(84,60,330,230);
+    score_display->setAlignment(Qt::AlignCenter);
+
+    QFont font("华文隶书",40,  QFont::Bold);
+    score_display->setFont(font);
+
 
     greenScoreLCD->setObjectName("greenScore");
 
@@ -195,17 +204,26 @@ void GamePage::get_Notification(Item category, Notification nId)
 
         redScoreLCD->display(*redScore);
         greenScoreLCD->display(*greenScore);
+        score_display->setVisible(true);
         if(category == RED_SCORE)
         {
+            score_display->setText("Red Win!");
+            score_display->setStyleSheet("QLabel {color : red;}");
             redScoreLCD->setStyleSheet("QLCDNumber { color: red; }");
         }
         else if(category == GREEN_SCORE)
+        {
+            score_display->setText("Green Win!");
+            score_display->setStyleSheet("QLabel {color : green;}");
+
             greenScoreLCD->setStyleSheet("QLCDNumber {  color: green; }");
+        }
     } else if(nId == TANK_MOVE_FORWARD)
     {
         qDebug() << " nId " << nId;
         redScoreLCD->setStyleSheet("QLCDNumber { color: black; }");
         greenScoreLCD->setStyleSheet("QLCDNumber { color: black; }");
+        score_display->setVisible(false);
     }
 }
 
