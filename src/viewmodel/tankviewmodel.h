@@ -3,7 +3,6 @@
 
 #include <QObject>
 #include "tankmodel.h"
-// #include "tankitem.h"
 #include "tpoint.h"
 #include "common.h"
 
@@ -15,23 +14,18 @@ public:
     TankViewModel(qreal x, qreal y, qreal angle = 0, int id = RED_TANK, QObject *parent = nullptr);
     ~TankViewModel();
     void attach_tankmodel(TankModel *tankModel);
-    // void attach_item(TankItem *tankItem);
-    // TankItem* get_tankItem();
     TPoint* get_tank();
 
 signals:
     void tank_move(qint32 eId);
 
 public slots:
-    // void get_MoveCommand(QKeyEvent *event);
-    // void get_MoveCommand(int key);
     void get_moveCommand(int sId);
     void get_rotateCommand(int sId);
     void get_Notification(qint32 eId);
 
 private:
     TankModel *tankModel;
-    // TankItem *tankItem;
     TPoint *tank;
 };
 
