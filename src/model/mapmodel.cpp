@@ -231,10 +231,15 @@ void MapModel::bullet_move()
                     red_bullets[i]->setPos(nextPosition.x() + deltaX, nextPosition.y() + deltaY);
                     red_bullets[i]->setAngle(-1 * red_bullets[i]->getAngle());
                 }
-                else { // 撞竖着的墙
+                else if(deltaY == 0){ // 撞竖着的墙
                     QPointF nextPosition = red_bullets[i]->getNextPosition();
                     red_bullets[i]->setPos(nextPosition.x() + deltaX, nextPosition.y() + deltaY);
                     red_bullets[i]->setAngle(180 - red_bullets[i]->getAngle());
+                }
+                else { // 撞角
+                    QPointF nextPosition = red_bullets[i]->getNextPosition();
+                    red_bullets[i]->setPos(nextPosition.x() + deltaX, nextPosition.y() + deltaY);
+                    red_bullets[i]->setAngle(red_bullets[i]->getAngle() + 180);
                 }
 
             }
@@ -252,10 +257,15 @@ void MapModel::bullet_move()
                     green_bullets[i]->setPos(nextPosition.x() + deltaX, nextPosition.y() + deltaY);
                     green_bullets[i]->setAngle(-1 * green_bullets[i]->getAngle());
                 }
-                else { // 撞竖着的墙
+                else if(deltaY == 0){ // 撞竖着的墙
                     QPointF nextPosition = green_bullets[i]->getNextPosition();
                     green_bullets[i]->setPos(nextPosition.x() + deltaX, nextPosition.y() + deltaY);
                     green_bullets[i]->setAngle(180 - green_bullets[i]->getAngle());
+                }
+                else { // 撞角
+                    QPointF nextPosition = green_bullets[i]->getNextPosition();
+                    green_bullets[i]->setPos(nextPosition.x() + deltaX, nextPosition.y() + deltaY);
+                    green_bullets[i]->setAngle(green_bullets[i]->getAngle() + 180);
                 }
             }
             else green_bullets[i]->moveForward();
@@ -300,20 +310,21 @@ bool MapModel::bulletCollide(Bullet *bullet, qreal &deltaX, qreal &deltaY)
     for (auto vertex : bulletVertices) {
         if(vertex.x() < 0){
             deltaX = 2 * 0 - 2 * bulletRect.left();
-            return true;
+            // return true;
         }
         else if(vertex.x() > SCENE_WIDTH){
             deltaX = 2 * SCENE_WIDTH - 2 * bulletRect.right();
-            return true;
+            // return true;
         }
-        else if(vertex.y() < 0){
+        if(vertex.y() < 0){
             deltaY = 2 * 0 - 2 * bulletRect.top();
-            return true;
+            // return true;
         }
         else if(vertex.y() > SCENE_HEIGHT){
             deltaY = 2 * SCENE_HEIGHT - 2 * bulletRect.bottom();
-            return true;
+            // return true;
         }
+        if(deltaX != 0 || deltaY != 0) return true;
     }
     // 墙壁
     for (auto wall : walls) {
@@ -321,22 +332,23 @@ bool MapModel::bulletCollide(Bullet *bullet, qreal &deltaX, qreal &deltaY)
         // if(!bulletRect.intersects(wallRect)) continue;
         QRectF intersection = bulletRect.intersected(wallRect);
         if(intersection.isEmpty()) continue;
-        if(intersection.left() != bulletRect.left()){
+        if(intersection.width() <= intersection.height() && intersection.left() > bulletRect.left()){
             deltaX = 2 * wallRect.left() - 2 * bulletRect.right();
-            return true;
+            // return true;
         }
-        else if(intersection.right() != bulletRect.right()){
+        else if(intersection.width() <= intersection.height() && intersection.right() < bulletRect.right()){
             deltaX = 2 * wallRect.right() - 2 * bulletRect.left();
-            return true;
+            // return true;
         }
-        else if(intersection.bottom() != bulletRect.bottom()){
+        if(intersection.width() >= intersection.height() && intersection.bottom() < bulletRect.bottom()){
             deltaY = 2 * wallRect.bottom() - 2 * bulletRect.top();
-            return true;
+            // return true;
         }
-        else if(intersection.top() != bulletRect.top()){
+        else if(intersection.width() >= intersection.height() && intersection.top() > bulletRect.top()){
             deltaY = 2 * wallRect.top() - 2 * bulletRect.bottom();
-            return true;
+            // return true;
         }
+        if(deltaX != 0 || deltaY != 0) return true;
     }
     return false;
 }
