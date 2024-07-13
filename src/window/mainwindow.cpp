@@ -13,27 +13,6 @@ MainWindow::MainWindow(QWidget *parent)
     aboutPage(new AboutPage(this)),
     gamePage(new GamePage(this))
 {
-    // tank = new QPixmap;
-    // tank->load(":/pic/pictures/Tank_Red.png");
-    // tank->load(".../picture/Tank_Red.png");
-    // tank->load("Tank_Red.png");
-    // QPainter painter;
-    // painter.drawPixmap(100, 100, *tank);
-    // QGraphicsScene *pScene = new QGraphicsScene();
-    // pScene->setSceneRect(0, 0, 400, 400);
-    // pScene->addPixmap(*tank);
-    // QGraphicsPixmapItem *pmi_tank = new QGraphicsPixmapItem(*tank);
-    // pmi_tank->setPos(0, 0);
-    // pmi_tank->setScale(5);
-    // pScene->addItem(pmi_tank);
-    // QGraphicsView *pView = new QGraphicsView(pScene, this);
-    // pView->setMinimumSize(400, 400);
-    // lay = new QHBoxLayout();
-    // box1 = new QCheckBox("underline");
-    // lay->addWidget(box1);
-    // setLayout(lay);
-    // this->close();
-
     this->init();
 }
 
@@ -55,13 +34,6 @@ void MainWindow::init()
     stackedWidget->addWidget(gamePage);
 
     stackedWidget->setCurrentWidget(initialpage);
-    // stackedWidget->setCurrentWidget(aboutPage);
-    // stackedWidget->setCurrentWidget(gamePage);
-
-    // this->setLayout(new QVBoxLayout(this)); // QWidget写法
-    // this->layout()->addWidget(stackedWidget);
-
-    // initialpage->show();
 
     connect(initialpage, &InitialPage::switchToAboutPage, this, &MainWindow::do_showAboutPage);
     connect(initialpage, &InitialPage::switchToGamePage, this, &MainWindow::do_showGamePage);

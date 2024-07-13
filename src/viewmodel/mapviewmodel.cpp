@@ -69,7 +69,6 @@ void MapViewModel::get_moveCommand(Item category, Command cId)
 
 void MapViewModel::get_shootCommand(Item category, Command cId)
 {
-    // Q_UNUSED(category);
     Q_UNUSED(cId);
     this->mapModel->tank_shoot(category);
 }
@@ -78,16 +77,6 @@ void MapViewModel::get_clearCommand()
 {
     this->mapModel->resetGame();
 }
-
-// void MapViewModel::get_rotateCommand(Item category, Command cId)
-// {
-//     if(cId == TANK_ROTATE_LEFT){
-//         this->mapModel->tank_rotateLeft(category);
-//     }
-//     else if(cId == TANK_ROTATE_RIGHT){
-//         this->mapModel->tank_rotateRight(category);
-//     }
-// }
 
 void MapViewModel::get_Notification(Item category, Notification nId)
 {
@@ -121,7 +110,6 @@ void MapViewModel::get_Notification(Item category, Notification nId)
             bullets[i + MAX_TANK_BULLETS] = modelBullets[i];
         }
         emit bullet_change(category, nId);
-        // emit tank_move(category, nId);
     }
     else if(nId == SCORE_CHANGE){
         redScore = this->mapModel->getRedScore();

@@ -87,10 +87,6 @@ void GamePage::init()
     gameBoard->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     gameBoard->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
-    // redTank = new TankItem(QPixmap(":/pic/pictures/Tank_Red.png"));
-    // redTank->setPos(0, 0);
-    // scene->addItem(redTank);
-
     redTankItem = new QGraphicsPixmapItem(QPixmap(":/pic/pictures/Tank_Red.png"));
     redTankItem->setTransformOriginPoint(redTankItem->pixmap().width() / 2, redTankItem->pixmap().height() / 2);
     redTankItem->setPos(RED_TANK_INIT_X, RED_TANK_INIT_Y);
