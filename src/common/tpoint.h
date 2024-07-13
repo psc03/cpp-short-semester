@@ -35,8 +35,6 @@ public:
 
     virtual bool isAvailable();
 
-// signals:
-
 protected:
     int id;
     Item category;
