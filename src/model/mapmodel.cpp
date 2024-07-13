@@ -215,6 +215,12 @@ void MapModel::tank_shoot(Item color)
         shoot->setPos(bulletLeftup);
         shoot->setAngle(angle);
 
+        qreal deltaX = 0;
+        qreal deltaY = 0;
+        if(bulletCollide(shoot, deltaX, deltaY)){
+            tankHited(RED_TANK);
+        }
+
         // emit signal
         emit bullet_change(BULLET, BULLET_CHANGE);
     }
@@ -238,6 +244,12 @@ void MapModel::tank_shoot(Item color)
 
         shoot->setPos(bulletLeftup);
         shoot->setAngle(angle);
+
+        qreal deltaX = 0;
+        qreal deltaY = 0;
+        if(bulletCollide(shoot, deltaX, deltaY)){
+            tankHited(GREEN_TANK);
+        }
 
         // emit signal
         emit bullet_change(BULLET, BULLET_CHANGE);
