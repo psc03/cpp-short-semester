@@ -186,13 +186,26 @@ void GamePage::get_Notification(Item category, Notification nId)
             else bulletItems[i]->setVisible(true);
         }
     }
-    else if(nId == SCORE_CHANGE){
+    if(nId == SCORE_CHANGE){
+        qDebug() << " nId " << nId;
         if(boom->playbackState()==QMediaPlayer::PlayingState)
             boom->setPosition(0);
         else if(boom->playbackState()==QMediaPlayer::StoppedState)
             boom->play();
+
         redScoreLCD->display(*redScore);
         greenScoreLCD->display(*greenScore);
+        if(category == RED_SCORE)
+        {
+            redScoreLCD->setStyleSheet("QLCDNumber { color: red; }");
+        }
+        else if(category == GREEN_SCORE)
+            greenScoreLCD->setStyleSheet("QLCDNumber {  color: green; }");
+    } else if(nId == TANK_MOVE_FORWARD)
+    {
+        qDebug() << " nId " << nId;
+        redScoreLCD->setStyleSheet("QLCDNumber { color: black; }");
+        greenScoreLCD->setStyleSheet("QLCDNumber { color: black; }");
     }
 }
 

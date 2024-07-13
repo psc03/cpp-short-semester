@@ -46,6 +46,7 @@ private:
     QVector<Bullet *> green_bullets;
     QVector<Wall *> walls;
     QTimer *bullet_move_timer;
+    QTimer *reset_interval;
     int redScore;
     int greenScore;
 
