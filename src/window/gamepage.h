@@ -35,6 +35,7 @@ public:
     void attach_greenTank(TPoint *tank);
     void attach_bullets(QVector<TPoint *> *bullets);
     void attach_walls(QVector<Wall *> *walls);
+    void attach_score(int *redScore, int *greenScore);
 
 signals:
     // void keyPress_red(QKeyEvent *event);
@@ -74,8 +75,8 @@ private:
     QHBoxLayout *scoreBoard;
     QLabel *sb_redTank;
     QLabel *sb_greenTank;
-    QLCDNumber *redScore;
-    QLCDNumber *greenScore;
+    QLCDNumber *redScoreLCD;
+    QLCDNumber *greenScoreLCD;
 
     QTimer *commandTimer;
     QTimer *redTankShootTimer; // 发射间隔 冷却时间
@@ -90,6 +91,9 @@ private:
     static int intervalOfShoot; // ms 发射间隔
 
     QVector<Wall *> *walls;
+
+    int *redScore;
+    int *greenScore;
     // QWidget interface
 
 protected:

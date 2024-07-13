@@ -9,7 +9,9 @@ MapModel::MapModel(QObject *parent)
     : QObject{parent},
     red_tank(new Tank(RED_TANK, RED_TANK_INIT_X, RED_TANK_INIT_Y, RED_TANK_INIT_ANGLE)),
     green_tank(new Tank(GREEN_TANK, GREEN_TANK_INIT_X, GREEN_TANK_INIT_Y, GREEN_TANK_INIT_ANGLE)),
-    bullet_move_timer(new QTimer(this))
+    bullet_move_timer(new QTimer(this)),
+    redScore(0),
+    greenScore(0)
 {
     // red_bullets.resize(max_bullets);
     for(int i = 0; i < max_bullets; i++){
@@ -22,6 +24,8 @@ MapModel::MapModel(QObject *parent)
         green_bullets.push_back(bullet);
     }
     bullet_move_timer->start(BULLET_MOVE_TIMER);
+    connect(bullet_move_timer, &QTimer::timeout, this, &MapModel::bullet_move);
+
     // walls
     walls.push_back(new Wall(100, 0, 4, 100));
     walls.push_back(new Wall(246, 53, 4, 150));
@@ -41,10 +45,6 @@ MapModel::MapModel(QObject *parent)
     walls.push_back(new Wall(100, 100, 50, 4));
     walls.push_back(new Wall(260, 355, 4, 25));
     walls.push_back(new Wall(150, 175, 4, 25));
-
-    connect(bullet_move_timer, &QTimer::timeout, this, &MapModel::bullet_move);
-
-
 }
 
 MapModel::~MapModel()
@@ -73,6 +73,16 @@ QVector<Bullet *> MapModel::getBullets(Item color)
 QVector<Wall *> MapModel::getWalls()
 {
     return walls;
+}
+
+int MapModel::getRedScore()
+{
+    return redScore;
+}
+
+int MapModel::getGreenScore()
+{
+    return greenScore;
 }
 
 void MapModel::tank_moveForward(Item category)
@@ -217,6 +227,47 @@ void MapModel::tank_shoot(Item color)
     }
 }
 
+QPointF MapModel::randomPosition()
+{
+
+}
+
+void MapModel::reset()
+{
+    // Tank position and angle
+    red_tank->setAngle(RED_TANK_INIT_ANGLE);
+    red_tank->setPos(QPointF(RED_TANK_INIT_X, RED_TANK_INIT_Y));
+    emit tank_move(RED_TANK, TANK_MOVE_FORWARD);
+    emit tank_move(RED_TANK, TANK_ROTATE_LEFT);
+
+    green_tank->setAngle(GREEN_TANK_INIT_ANGLE);
+    green_tank->setPos(QPointF(GREEN_TANK_INIT_X, GREEN_TANK_INIT_Y));
+    emit tank_move(GREEN_TANK, TANK_MOVE_FORWARD);
+    emit tank_move(GREEN_TANK, TANK_ROTATE_LEFT);
+    // Bullet
+    for(auto bullet:red_bullets){
+        bullet->destroy();
+    }
+    for(auto bullet:green_bullets){
+        bullet->destroy();
+    }
+    emit bullet_change(BULLET, BULLET_CHANGE);
+    //
+
+}
+
+void MapModel::tankHited(Item color)
+{
+    if(color == RED_TANK){
+        greenScore++;
+        emit score_change(GREEN_SCORE, SCORE_CHANGE);
+    }else if(color == GREEN_TANK){
+        redScore++;
+        emit score_change(RED_SCORE, SCORE_CHANGE);
+    }
+    reset();
+}
+
 void MapModel::bullet_move()
 {
     // int count = 0;
@@ -224,7 +275,6 @@ void MapModel::bullet_move()
     qreal deltaY = 0;
     for(int i = 0; i < red_bullets.size(); i++){
         if(!red_bullets[i]->isAvailable()){
-            // TODO: MoveForward之前检测
             if(bulletCollide(red_bullets[i], deltaX, deltaY)){
                 if(deltaX == 0){ // 撞横着的墙
                     QPointF nextPosition = red_bullets[i]->getNextPosition();
@@ -304,8 +354,22 @@ bool MapModel::bulletCollide(Bullet *bullet, qreal &deltaX, qreal &deltaY)
     bulletNext.moveForward();
     QVector<QPointF> bulletVertices = bulletNext.getVertices();
     QRectF bulletRect(bulletNext.position().x(), bulletNext.position().y(), BULLET_WIDTH, BULLET_HEIGHT);
+
+    QVector<QPointF> redtankVertices = red_tank->getVertices();
+    QVector<QPointF> greentankVertices = green_tank->getVertices();
+    QPolygonF redtankPolygon(redtankVertices);
+    QPolygonF greentankPolygon(greentankVertices);
     deltaX = 0;
     deltaY = 0;
+    // Tank
+    if(!redtankPolygon.intersected(bulletRect).isEmpty()){
+        qDebug() << "red hit ";
+        tankHited(RED_TANK);
+        // emit tank_hit(RED_TANK);
+    }
+    if(!greentankPolygon.intersected(bulletRect).isEmpty()){
+        tankHited(GREEN_TANK);
+    }
     // 边界
     for (auto vertex : bulletVertices) {
         if(vertex.x() < 0){

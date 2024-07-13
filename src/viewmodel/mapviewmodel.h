@@ -16,10 +16,13 @@ public:
     TPoint *get_tank(Item color);
     QVector<TPoint *> *get_bullets();
     QVector<Wall *> *get_walls();
+    int *get_redScore();
+    int *get_greenScore();
 
 signals:
     void tank_move(Item category, Notification nId);
     void bullet_change(Item catogory, Notification nId);
+    void score_change(Item catogory, Notification nId);
 
 public slots:
     void get_moveCommand(Item category, Command cId);
@@ -34,6 +37,8 @@ private:
     TPoint *green_tank;
     QVector<TPoint *> bullets;
     QVector<Wall *> walls;
+    int redScore;
+    int greenScore;
 };
 
 #endif // MAPVIEWMODEL_H

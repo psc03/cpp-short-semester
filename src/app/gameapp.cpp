@@ -30,7 +30,7 @@ void GameApp::init()
     mapVM.attach_mapModel(&mapModel);
     connect(&mapModel, &MapModel::tank_move, &mapVM, &MapViewModel::get_Notification);
     connect(&mapModel, &MapModel::bullet_change, &mapVM, &MapViewModel::get_Notification);
-
+    connect(&mapModel, &MapModel::score_change, &mapVM, &MapViewModel::get_Notification);
     // properties
     // mainWND.getGamePage()->attach_redTankItem(red_tankVM.get_tankItem());
     // mainWND.getGamePage()->attach_redTank(red_tankVM.get_tank());
@@ -43,6 +43,8 @@ void GameApp::init()
     mainWND.getGamePage()->attach_bullets(mapVM.get_bullets());
 
     mainWND.getGamePage()->attach_walls(mapVM.get_walls());
+
+    mainWND.getGamePage()->attach_score(mapVM.get_redScore(), mapVM.get_greenScore());
 
     // command
     // connect(mainWND.getGamePage(), &GamePage::keyPress_red, &red_tankVM, &TankViewModel::get_moveCommand);
@@ -60,6 +62,7 @@ void GameApp::init()
 
     connect(&mapVM, &MapViewModel::tank_move, mainWND.getGamePage(), &GamePage::get_Notification);
     connect(&mapVM, &MapViewModel::bullet_change, mainWND.getGamePage(), &GamePage::get_Notification);
+    connect(&mapVM, &MapViewModel::score_change, mainWND.getGamePage(), &GamePage::get_Notification);
 
     mainWND.show();
 }

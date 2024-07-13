@@ -4,7 +4,9 @@
 MapViewModel::MapViewModel(QObject *parent)
     : QObject{parent},
     red_tank(new TPoint(RED_TANK_INIT_X, RED_TANK_INIT_Y, RED_TANK, RED_TANK_INIT_ANGLE)),
-    green_tank(new TPoint(GREEN_TANK_INIT_X, GREEN_TANK_INIT_Y, GREEN_TANK, GREEN_TANK_INIT_ANGLE))
+    green_tank(new TPoint(GREEN_TANK_INIT_X, GREEN_TANK_INIT_Y, GREEN_TANK, GREEN_TANK_INIT_ANGLE)),
+    redScore(0),
+    greenScore(0)
 {
     for(int i = 0; i < MAX_TANK_BULLETS * 2; i++){
         TPoint *bullet = new Bullet();
@@ -37,6 +39,16 @@ QVector<TPoint *> *MapViewModel::get_bullets()
 QVector<Wall *> *MapViewModel::get_walls()
 {
     return &walls;
+}
+
+int *MapViewModel::get_redScore()
+{
+    return &redScore;
+}
+
+int *MapViewModel::get_greenScore()
+{
+    return &greenScore;
 }
 
 void MapViewModel::get_moveCommand(Item category, Command cId)
@@ -105,5 +117,10 @@ void MapViewModel::get_Notification(Item category, Notification nId)
         }
         emit bullet_change(category, nId);
         // emit tank_move(category, nId);
+    }
+    else if(nId == SCORE_CHANGE){
+        redScore = this->mapModel->getRedScore();
+        greenScore = this->mapModel->getGreenScore();
+        emit score_change(category, nId);
     }
 }

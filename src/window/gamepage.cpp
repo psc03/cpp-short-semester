@@ -23,8 +23,8 @@ GamePage::GamePage(QWidget *parent)
     scoreBoard(new QHBoxLayout(scoreBoardContainer)),
     sb_redTank(new QLabel(scoreBoardContainer)),
     sb_greenTank(new QLabel(scoreBoardContainer)),
-    redScore(new QLCDNumber(scoreBoardContainer)),
-    greenScore(new QLCDNumber(scoreBoardContainer)),
+    redScoreLCD(new QLCDNumber(scoreBoardContainer)),
+    greenScoreLCD(new QLCDNumber(scoreBoardContainer)),
     commandTimer(new QTimer(this)),
     redTankShootTimer(new QTimer(this)),
     greenTankShootTimer(new QTimer(this))
@@ -81,9 +81,9 @@ void GamePage::init()
 
     scoreBoard->addWidget(sb_redTank);
 
-    redScore->setObjectName("redScore");
+    redScoreLCD->setObjectName("redScore");
 
-    scoreBoard->addWidget(redScore);
+    scoreBoard->addWidget(redScoreLCD);
 
     sb_greenTank->setObjectName("sb_greenTank");
     sb_greenTank->setPixmap(QPixmap(":/pic/pictures/Tank_Green_Big.png"));
@@ -93,9 +93,9 @@ void GamePage::init()
 
     scoreBoard->addWidget(sb_greenTank);
 
-    greenScore->setObjectName("greenScore");
+    greenScoreLCD->setObjectName("greenScore");
 
-    scoreBoard->addWidget(greenScore);
+    scoreBoard->addWidget(greenScoreLCD);
 
     gameBoardContainer->setObjectName("gameBoardContainer");
     gameBoardContainer->setGeometry(QRect(0, 0, 500, 500));
@@ -187,6 +187,12 @@ void GamePage::attach_walls(QVector<Wall *> *walls)
     }
 }
 
+void GamePage::attach_score(int *redScore, int *greenScore)
+{
+    this->redScore = redScore;
+    this->greenScore = greenScore;
+}
+
 // void GamePage::get_Notification(qint32 eId)
 // {
 //     // Q_UNUSED(eId);
@@ -221,6 +227,10 @@ void GamePage::get_Notification(Item category, Notification nId)
             if((*bullets).at(i)->isAvailable()) bulletItems[i]->setVisible(false);
             else bulletItems[i]->setVisible(true);
         }
+    }
+    else if(nId == SCORE_CHANGE){
+        redScoreLCD->display(*redScore);
+        greenScoreLCD->display(*greenScore);
     }
 }
 

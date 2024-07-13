@@ -38,7 +38,8 @@ enum Notification{
     TANK_ROTATE_RIGHT,
     TANK_SHOOT,
     BULLET_MOVE,
-    BULLET_CHANGE
+    BULLET_CHANGE,
+    SCORE_CHANGE
 };
 
 using Command = Notification;
@@ -47,7 +48,9 @@ using Command = Notification;
 enum Item{
     RED_TANK = 10,
     GREEN_TANK,
-    BULLET
+    BULLET,
+    RED_SCORE,
+    GREEN_SCORE
 };
 
 #endif // COMMON_H
