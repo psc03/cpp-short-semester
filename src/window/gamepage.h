@@ -13,6 +13,10 @@
 #include "mem/wall.h"
 #include "common.h"
 
+// sound
+#include <QMediaPlayer>
+#include <QAudioOutput>
+
 class QHBoxLayout;
 class QLabel;
 class QLCDNumber;
@@ -83,6 +87,11 @@ private:
     static int intervalOfShoot; // ms 发射间隔
 
     QVector<Wall *> *walls;
+
+    QAudioOutput * out;
+    QMediaPlayer * shoot1;   //发射
+    QMediaPlayer * shoot2;
+    QMediaPlayer * boom;    //爆炸
 
     int *redScore;
     int *greenScore;

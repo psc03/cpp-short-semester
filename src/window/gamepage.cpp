@@ -146,6 +146,20 @@ void GamePage::init()
     greenTankShootTimer->setSingleShot(true);
     resetGameTimer->setSingleShot(true);
     connect(resetGameTimer,&QTimer::timeout,this,&GamePage::game_clear);
+
+    //设置声音
+    out = new QAudioOutput();
+    shoot1 = new QMediaPlayer();
+    shoot1->setSource(QUrl("qrc:/s/sound/shoot1.mp4"));
+    shoot1->setAudioOutput(out);
+    out = new QAudioOutput();
+    shoot2 = new QMediaPlayer();
+    shoot2->setSource(QUrl("qrc:/s/sound/shoot2.mp4"));
+    shoot2->setAudioOutput(out);
+    out = new QAudioOutput();
+    boom = new QMediaPlayer();
+    boom->setSource(QUrl("qrc:/s/sound/boom.mp4"));
+    boom->setAudioOutput(out);
 }
 
 // void GamePage::attach_redTankItem(TankItem *tankItem)
@@ -231,6 +245,10 @@ void GamePage::get_Notification(Item category, Notification nId)
         }
     }
     else if(nId == SCORE_CHANGE){
+        if(boom->playbackState()==QMediaPlayer::PlayingState)
+            boom->setPosition(0);
+        else if(boom->playbackState()==QMediaPlayer::StoppedState)
+            boom->play();
         redScoreLCD->display(*redScore);
         greenScoreLCD->display(*greenScore);
     }
@@ -261,6 +279,10 @@ void GamePage::handleKeyPress_cmd()
     }
     if(keyPressed.contains(Qt::Key_Space) && !redTankShootTimer->isActive()){
         redTankShootTimer->start(intervalOfShoot); // 冷却
+        if(shoot1->playbackState()==QMediaPlayer::PlayingState)
+            shoot1->setPosition(0);
+        else if(shoot1->playbackState()==QMediaPlayer::StoppedState)
+            shoot1->play();
         emit tank_shoot(RED_TANK, TANK_SHOOT);
     }
     if(keyPressed.contains(Qt::Key_Up)){
@@ -285,6 +307,10 @@ void GamePage::handleKeyPress_cmd()
     }
     if(keyPressed.contains(Qt::Key_M) && !greenTankShootTimer->isActive()){
         greenTankShootTimer->start(intervalOfShoot); // 冷却
+        if(shoot2->playbackState()==QMediaPlayer::PlayingState)
+            shoot2->setPosition(0);
+        else if(shoot2->playbackState()==QMediaPlayer::StoppedState)
+            shoot2->play();
         emit tank_shoot(GREEN_TANK, TANK_SHOOT);
     }
     // emit keyPress_red();
