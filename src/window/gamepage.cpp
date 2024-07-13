@@ -1,6 +1,4 @@
 #include "gamepage.h"
-// #include "common.h"
-// #include "tankviewmodel.h"
 #include <QGraphicsView>
 #include <QGraphicsScene>
 #include <QGraphicsPixmapItem>
@@ -40,27 +38,6 @@ GamePage::~GamePage()
 
 void GamePage::init()
 {
-    // tank = new QPixmap;
-    // tank->load(":/pic/pictures/Tank_Red.png");
-    // tank->load(".../picture/Tank_Red.png");
-    // tank->load("Tank_Red.png");
-    // QPainter painter;
-    // painter.drawPixmap(100, 100, *tank);
-    // QGraphicsScene *pScene = new QGraphicsScene();
-    // pScene->setSceneRect(0, 0, 400, 400);
-    // pScene->addPixmap(*tank);
-    // QGraphicsPixmapItem *pmi_tank = new QGraphicsPixmapItem(*tank);
-    // pmi_tank->setPos(0, 0);
-    // pmi_tank->setScale(5);
-    // pScene->addItem(pmi_tank);
-    // QGraphicsView *pView = new QGraphicsView(pScene, this);
-    // pView->setMinimumSize(400, 400);
-    // lay = new QHBoxLayout();
-    // box1 = new QCheckBox("underline");
-    // lay->addWidget(box1);
-    // setLayout(lay);
-    // this->close();
-
     this->setObjectName("GamePage");
     this->resize(500, 600);
 
@@ -162,19 +139,6 @@ void GamePage::init()
     boom->setAudioOutput(out);
 }
 
-// void GamePage::attach_redTankItem(TankItem *tankItem)
-// {
-//     this->redTankItem = tankItem;
-//     this->redTankItem->setPixmap(QPixmap(":/pic/pictures/Tank_Red.png"));
-//     this->redTankItem->setPos(0, 0);
-//     scene->addItem(redTankItem);
-// }
-
-// void GamePage::attach_greenTankItem(TankItem *tankItem)
-// {
-//     this->greenTankItem = tankItem;
-// }
-
 void GamePage::attach_redTank(TPoint *tank)
 {
     this->redTank = tank;
@@ -208,24 +172,6 @@ void GamePage::attach_score(int *redScore, int *greenScore)
     this->redScore = redScore;
     this->greenScore = greenScore;
 }
-
-// void GamePage::get_Notification(qint32 eId)
-// {
-//     // Q_UNUSED(eId);
-//     // TPoint *tank_sender = qobject_cast<TankViewModel *>(sender())->get_tank();
-//     if(eId == TANK_MOVE_FORWARD || eId == TANK_MOVE_BACKWARD){
-//         this->redTankItem->setPos(this->redTank->getX(), this->redTank->getY());
-//     }
-//     else if(eId == TANK_ROTATE_LEFT || eId == TANK_ROTATE_RIGHT){
-//         this->redTankItem->setRotation(this->redTank->getAngle());
-//     }
-//     else if(eId == -1 * TANK_MOVE_FORWARD || eId == -1 * TANK_MOVE_FORWARD){
-//         this->greenTankItem->setPos(this->greenTank->getX(), this->greenTank->getY());
-//     }
-//     else if(eId == -1 * TANK_ROTATE_LEFT || eId == -1 * TANK_ROTATE_RIGHT){
-//         this->greenTankItem->setRotation(this->greenTank->getAngle());
-//     }
-// }
 
 void GamePage::get_Notification(Item category, Notification nId)
 {
