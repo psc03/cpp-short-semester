@@ -28,7 +28,7 @@ private:
     QPushButton *DoublePlay_Button;
     QPushButton *About_Button;
     QPushButton *Exit_Button;
-    QLabel *backGround;
+    // QLabel *backGround;
 };
 
 #endif // INITIALPAGE_H

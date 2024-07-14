@@ -1,5 +1,6 @@
 #include "tpoint.h"
 #include <QPointF>
+#include <QDebug>
 
 TPoint::TPoint(QObject *parent)
     : QObject{parent},

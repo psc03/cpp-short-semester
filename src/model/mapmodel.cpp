@@ -52,7 +52,17 @@ MapModel::MapModel(QObject *parent)
 
 MapModel::~MapModel()
 {
-
+    delete red_tank;
+    delete green_tank;
+    for(int i = 0; i < red_bullets.size(); i++){
+        delete red_bullets[i];
+    }
+    for(int i = 0; i < green_bullets.size(); i++){
+        delete green_bullets[i];
+    }
+    for(int i = 0; i < walls.size(); i++){
+        delete walls[i];
+    }
 }
 
 QPointF MapModel::getTankPosition(Item color)

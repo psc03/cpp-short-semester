@@ -35,7 +35,23 @@ GamePage::GamePage(QWidget *parent)
 
 GamePage::~GamePage()
 {
-
+    delete redTankItem;
+    delete greenTankItem;
+    for(int i = 0; i < bulletItems.size(); i++){
+        delete bulletItems[i];
+    }
+    for(int i = 0; i < wallItems.size(); i++){
+        delete wallItems[i];
+    }
+    out = shoot1->audioOutput();
+    delete out;
+    delete shoot1;
+    out = shoot2->audioOutput();
+    delete out;
+    delete shoot2;
+    out = boom->audioOutput();
+    delete out;
+    delete boom;
 }
 
 void GamePage::init()

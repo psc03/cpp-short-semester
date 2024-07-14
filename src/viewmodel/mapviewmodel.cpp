@@ -16,7 +16,11 @@ MapViewModel::MapViewModel(QObject *parent)
 
 MapViewModel::~MapViewModel()
 {
-
+    delete red_tank;
+    delete green_tank;
+    // for(int i = 0; i < bullets.size(); i++){
+    //     delete bullets[i];
+    // }
 }
 
 void MapViewModel::attach_mapModel(MapModel *mapModel)

@@ -38,7 +38,7 @@ qreal Wall::getHeight()
 
 bool Wall::inWall(QPointF position)
 {
-    if(position.x()>x && position.x() < (x+width) && position.y() > y && position.y() < y + height)
+    if(position.x() > x && position.x() < (x+width) && position.y() > y && position.y() < y + height)
         return true;
     else
         return false;
