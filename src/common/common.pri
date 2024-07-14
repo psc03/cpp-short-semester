@@ -1,5 +1,7 @@
 SOURCES += \
+    $$PWD/tpoint.cpp
             \
 
 HEADERS += \
-    $$PWD/common.h \
+    $$PWD/tpoint.h \
+    $$PWD/common.h

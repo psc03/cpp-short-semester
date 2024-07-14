@@ -1,12 +1,9 @@
-#include "mainwindow.h"
-
 #include <QApplication>
 
-int main(int argc, char *argv[])
-{
-    QApplication a(argc, argv);
-    MainWindow w;
-    w.setWindowTitle("Tank Trouble");
-    w.show();
-    return a.exec();
+#include "gameapp.h"
+
+int main(int argc, char *argv[]) {
+  // QApplication app(argc, argv);
+  GameApp app(argc, argv);
+  return app.exec();
 }

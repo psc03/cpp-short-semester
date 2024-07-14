@@ -14,6 +14,18 @@
         <file>pictures/wall1.png</file>
         <file>pictures/wall2.png</file>
         <file>pictures/icon.png</file>
+        <file>pictures/Initial.png</file>
+        <file>pictures/key/a.png</file>
+        <file>pictures/key/d.png</file>
+        <file>pictures/key/down.png</file>
+        <file>pictures/key/left.png</file>
+        <file>pictures/key/m.png</file>
+        <file>pictures/key/right.png</file>
+        <file>pictures/key/s.png</file>
+        <file>pictures/key/space.png</file>
+        <file>pictures/key/up.png</file>
+        <file>pictures/key/w.png</file>
+        <file>pictures/aboutBackground.png</file>
     </qresource>
     <qresource prefix="/music"/>
 </RCC>
